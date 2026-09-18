@@ -16,11 +16,21 @@ interface ExercisePromptProps {
 }
 
 export function ExercisePrompt({ exercise, onSolved }: ExercisePromptProps) {
-  const { recordHintUsed, hintsUsedFor } = useProgress();
+  const { recordAttempt } = useProgress();
   const [correct, setCorrect] = useState<boolean | null>(null);
+  // Dicas vistas desde a última tentativa deste exercício — vai junto com
+  // a tentativa gravada em `exercise_attempts` (Fase 7), não é um estado
+  // global: cada submissão registra quantas dicas levaram até ali.
+  const [hintsUsed, setHintsUsed] = useState(0);
 
   function handleAttempt(isCorrect: boolean) {
     setCorrect(isCorrect);
+    recordAttempt({
+      exerciseId: exercise.id,
+      conceptId: exercise.conceptId,
+      correct: isCorrect,
+      hintsUsed,
+    });
     if (isCorrect) onSolved?.();
   }
 
@@ -30,7 +40,7 @@ export function ExercisePrompt({ exercise, onSolved }: ExercisePromptProps) {
         concept: exercise.concept,
         difficulty: exercise.difficulty,
         correct,
-        hintsUsed: hintsUsedFor(exercise.id),
+        hintsUsed,
       });
 
   return (
@@ -58,10 +68,7 @@ export function ExercisePrompt({ exercise, onSolved }: ExercisePromptProps) {
       {correct !== null && <FeedbackCard correct={correct} recommendation={recommendation} />}
 
       {correct !== true && (
-        <HintPanel
-          hints={exercise.hints}
-          onHintRevealed={() => recordHintUsed(exercise.id)}
-        />
+        <HintPanel hints={exercise.hints} onHintRevealed={() => setHintsUsed((n) => n + 1)} />
       )}
     </div>
   );

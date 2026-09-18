@@ -39,7 +39,18 @@
    real** — só build/lint limpos e o worker confirmado servido como
    JavaScript puro; a validação de fato (clicar em "Executar" e ver o
    resultado) ainda não foi feita.
-7. **Progresso** — `student_progress`, `concept_mastery` reais.
+7. **Progresso** — concluído. `src/lib/learning/progressServer.ts` busca
+   `student_progress` no layout do servidor (sem "flash" de progresso
+   vazio); `src/lib/learning/progressClient.ts` grava do navegador:
+   concluir aula → `student_progress`, resolver exercício →
+   `exercise_attempts` + atualização simples de `concept_mastery`.
+   `ProgressContext.tsx` trocou `useSyncExternalStore`/`localStorage` por
+   `useState` inicializado do servidor + escrita otimista. `mockProgress.ts`
+   removido. Escritas são "melhor esforço" (avisam no console e não
+   quebram a UI se falharem — por exemplo, com o currículo ainda no
+   fallback mockado, cujos ids não são uuids válidos no Supabase).
+   Botão "Reiniciar progresso" em `/progresso` agora apaga de verdade
+   (com confirmação) em vez de só limpar o `localStorage`.
 8. **Sistema adaptativo** — `AdaptiveLearningService` completo.
 9. **Testes**.
 10. **Deploy na Vercel**.

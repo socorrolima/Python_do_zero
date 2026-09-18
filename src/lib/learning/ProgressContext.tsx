@@ -1,14 +1,8 @@
 "use client";
 
-import { createContext, useContext, useMemo, useSyncExternalStore } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import type { Lesson, Module } from "@/types/curriculum";
-import {
-  getSnapshot,
-  getServerSnapshot,
-  subscribe,
-  updateProgress,
-  resetProgress as resetStoredProgress,
-} from "./mockProgress";
+import { upsertLessonCompleted, recordExerciseAttempt, resetAllProgress } from "./progressClient";
 
 interface ProgressSummary {
   completed: number;
@@ -16,11 +10,17 @@ interface ProgressSummary {
   percent: number;
 }
 
+interface RecordAttemptInput {
+  exerciseId: string;
+  conceptId: string;
+  correct: boolean;
+  hintsUsed: number;
+}
+
 interface ProgressContextValue {
   completedLessons: Set<string>;
   markLessonCompleted: (slug: string) => void;
-  recordHintUsed: (exerciseId: string) => void;
-  hintsUsedFor: (exerciseId: string) => number;
+  recordAttempt: (input: RecordAttemptInput) => void;
   isLessonUnlocked: (lesson: Lesson) => boolean;
   moduleProgress: (module: Module) => ProgressSummary;
   overallProgress: () => ProgressSummary;
@@ -33,34 +33,36 @@ interface ProgressProviderProps {
   children: React.ReactNode;
   /** Currículo (do Supabase, com fallback mockado) buscado no layout do servidor. */
   modules: Module[];
+  /** Slugs das aulas já concluídas, buscados de `student_progress` no layout do servidor (Fase 7). */
+  initialCompletedLessons: string[];
 }
 
-export function ProgressProvider({ children, modules }: ProgressProviderProps) {
-  const state = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+export function ProgressProvider({
+  children,
+  modules,
+  initialCompletedLessons,
+}: ProgressProviderProps) {
+  const [completedLessons, setCompletedLessons] = useState<Set<string>>(
+    () => new Set(initialCompletedLessons),
+  );
   const allLessons = useMemo(() => modules.flatMap((m) => m.lessons), [modules]);
 
   const value = useMemo<ProgressContextValue>(() => {
-    const completedLessons = new Set(state.completedLessons);
-
     const markLessonCompleted = (slug: string) => {
-      updateProgress((prev) =>
-        prev.completedLessons.includes(slug)
-          ? prev
-          : { ...prev, completedLessons: [...prev.completedLessons, slug] },
-      );
+      setCompletedLessons((prev) => {
+        if (prev.has(slug)) return prev;
+        const next = new Set(prev);
+        next.add(slug);
+        return next;
+      });
+
+      const lesson = allLessons.find((l) => l.slug === slug);
+      if (lesson) void upsertLessonCompleted(lesson.id);
     };
 
-    const recordHintUsed = (exerciseId: string) => {
-      updateProgress((prev) => ({
-        ...prev,
-        hintsUsedByExercise: {
-          ...prev.hintsUsedByExercise,
-          [exerciseId]: (prev.hintsUsedByExercise[exerciseId] ?? 0) + 1,
-        },
-      }));
+    const recordAttempt = (input: RecordAttemptInput) => {
+      void recordExerciseAttempt(input);
     };
-
-    const hintsUsedFor = (exerciseId: string) => state.hintsUsedByExercise[exerciseId] ?? 0;
 
     const isLessonUnlocked = (lesson: Lesson) => {
       const index = allLessons.findIndex((l) => l.slug === lesson.slug);
@@ -82,17 +84,21 @@ export function ProgressProvider({ children, modules }: ProgressProviderProps) {
       return { completed, total, percent: total === 0 ? 0 : Math.round((completed / total) * 100) };
     };
 
+    const resetProgress = () => {
+      setCompletedLessons(new Set());
+      void resetAllProgress();
+    };
+
     return {
       completedLessons,
       markLessonCompleted,
-      recordHintUsed,
-      hintsUsedFor,
+      recordAttempt,
       isLessonUnlocked,
       moduleProgress,
       overallProgress,
-      resetProgress: resetStoredProgress,
+      resetProgress,
     };
-  }, [state, allLessons]);
+  }, [completedLessons, allLessons]);
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;
 }

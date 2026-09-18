@@ -58,10 +58,14 @@ export function DashboardSummary({ modules }: { modules: Module[] }) {
 
       <button
         type="button"
-        onClick={resetProgress}
+        onClick={() => {
+          if (window.confirm("Isso apaga todo o seu progresso salvo (aulas, tentativas e domínio de conceitos). Continuar?")) {
+            resetProgress();
+          }
+        }}
         className="text-xs text-slate-400 underline hover:text-slate-600"
       >
-        Reiniciar progresso (apenas para teste — some com a Fase 7)
+        Reiniciar progresso (apaga de verdade — use só para testar)
       </button>
     </div>
   );

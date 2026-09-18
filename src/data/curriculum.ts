@@ -19,6 +19,7 @@ export const MODULES: Module[] = [
       "O que é um algoritmo, como ordenar passos e como quebrar um problema grande em partes pequenas.",
     lessons: [
       {
+        id: "o-que-e-um-algoritmo",
         slug: "o-que-e-um-algoritmo",
         moduleSlug: "pensamento-computacional",
         order: 1,
@@ -40,6 +41,7 @@ export const MODULES: Module[] = [
           title: "Escovar os dentes",
           difficulty: 1,
           concept: "algoritmo",
+          conceptId: "algoritmo",
           instruction:
             "Coloque estes passos na ordem correta para escovar os dentes.",
           correctOrder: [
@@ -59,6 +61,7 @@ export const MODULES: Module[] = [
         nextLessonSlug: "sequencia-e-ordem",
       },
       {
+        id: "sequencia-e-ordem",
         slug: "sequencia-e-ordem",
         moduleSlug: "pensamento-computacional",
         order: 2,
@@ -80,6 +83,7 @@ export const MODULES: Module[] = [
           title: "Atravessar a rua com segurança",
           difficulty: 2,
           concept: "algoritmo",
+          conceptId: "algoritmo",
           instruction: "Ordene os passos para atravessar a rua com segurança.",
           correctOrder: [
             "Parar na faixa de pedestres",
@@ -98,6 +102,7 @@ export const MODULES: Module[] = [
         nextLessonSlug: "decompondo-problemas",
       },
       {
+        id: "decompondo-problemas",
         slug: "decompondo-problemas",
         moduleSlug: "pensamento-computacional",
         order: 3,
@@ -119,6 +124,7 @@ export const MODULES: Module[] = [
           title: "Fazer a lição de casa",
           difficulty: 2,
           concept: "decomposição",
+          conceptId: "decomposicao",
           instruction:
             "Ordene as partes em que a tarefa 'fazer a lição de casa' pode ser dividida.",
           correctOrder: [
@@ -152,6 +158,7 @@ export const MODULES: Module[] = [
       "O que é Python, como escrever o primeiro programa e como usar print() e comentários.",
     lessons: [
       {
+        id: "o-que-e-python",
         slug: "o-que-e-python",
         moduleSlug: "primeiro-contato-python",
         order: 1,
@@ -173,6 +180,7 @@ export const MODULES: Module[] = [
           title: "Sua primeira mensagem",
           difficulty: 1,
           concept: "print",
+          conceptId: "print",
           instruction:
             'Escreva um programa que exiba exatamente a frase: Estou aprendendo Python!',
           starterCode: 'print("")',
@@ -188,6 +196,7 @@ export const MODULES: Module[] = [
         nextLessonSlug: "print-e-comentarios",
       },
       {
+        id: "print-e-comentarios",
         slug: "print-e-comentarios",
         moduleSlug: "primeiro-contato-python",
         order: 2,
@@ -209,6 +218,7 @@ export const MODULES: Module[] = [
           title: "Comentando o código",
           difficulty: 2,
           concept: "comentarios",
+          conceptId: "comentarios",
           instruction:
             "Escreva um comentário em qualquer linha explicando o que o programa faz e, depois, um print() que exiba exatamente: Python é mais simples do que parece",
           starterCode: '# escreva seu comentário aqui\nprint("")',
@@ -224,6 +234,7 @@ export const MODULES: Module[] = [
         nextLessonSlug: "sintaxe-basica",
       },
       {
+        id: "sintaxe-basica",
         slug: "sintaxe-basica",
         moduleSlug: "primeiro-contato-python",
         order: 3,
@@ -245,6 +256,7 @@ export const MODULES: Module[] = [
           title: "Três linhas, em ordem",
           difficulty: 2,
           concept: "sintaxe",
+          conceptId: "sintaxe",
           instruction:
             "Escreva três comandos print(), nesta ordem exata: Python do Zero — depois Módulo 2 concluído — depois Vamos para o Módulo 3!",
           starterCode: "",

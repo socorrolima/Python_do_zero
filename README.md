@@ -7,27 +7,27 @@ PROJETO. Ver `PEDAGOGICAL_METHOD.md` para o método completo e
 
 ## Status
 
-Fase 6 do desenvolvimento incremental: execução real de Python no
-navegador via [Pyodide](https://pyodide.org) (WebAssembly), substituindo
-o interpretador simulado das Fases 3-5. O código do aluno — no
-Laboratório e no "Experimente"/exercício de cada aula — agora roda Python
-de verdade, dentro de um Web Worker dedicado
-(`public/workers/pyodide-worker.js`), com timeout automático (protege a
-aba de travar num loop infinito) e erros reais do Python traduzidos para
-mensagens pedagógicas (`src/lib/python/errorMessages.ts`).
+Fase 7 do desenvolvimento incremental: progresso do aluno gravado de
+verdade no Supabase, substituindo o `localStorage` das Fases 3-6.
+Concluir uma aula grava em `student_progress`; resolver um exercício
+grava a tentativa em `exercise_attempts` e atualiza `concept_mastery`
+(uma regra simples por enquanto — o ajuste fino é da Fase 8). O layout
+busca o progresso já pronto no servidor (`src/lib/learning/progressServer.ts`)
+e as ações do aluno gravam pelo navegador
+(`src/lib/learning/progressClient.ts`); tudo em "melhor esforço" — se a
+gravação falhar (por exemplo, o currículo ainda estar no fallback
+mockado, cujos ids não são uuids reais), a interface continua funcionando
+e só um aviso aparece no console.
 
-**Importante, com honestidade:** este ambiente de desenvolvimento não tem
-um navegador real para clicar em "Executar" e confirmar visualmente o
-resultado — a verificação aqui foi build + lint limpos e a confirmação de
-que o worker é servido corretamente como JavaScript puro
-(`curl localhost:3000/workers/pyodide-worker.js`). A primeira execução de
-verdade, num navegador, é o teste que falta — vale rodar localmente e
-testar o Laboratório antes de considerar a fase 100% validada.
+Como nas fases anteriores, sem `.env.local`/seed configurados o app não
+quebra: o progresso simplesmente não persiste entre sessões (mesmo
+comportamento de antes, só que agora é a ausência de configuração real
+que explica isso, não uma limitação da Fase 3).
 
-Autenticação (Supabase Auth) e conteúdo (módulos/aulas/exercícios do
-Supabase, com fallback mockado) continuam como nas Fases 4-5. Progresso
-do aluno ainda é local (`localStorage`) — migra para
-`student_progress`/`concept_mastery` reais na Fase 7.
+Autenticação (Supabase Auth), conteúdo (módulos/aulas/exercícios do
+Supabase, com fallback mockado) e execução real de Python via Pyodide
+continuam como nas Fases 4-6 — a ressalva sobre Pyodide não ter sido
+testado num navegador real (só build/lint) ainda vale.
 
 ## Tecnologias
 

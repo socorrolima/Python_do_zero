@@ -14,6 +14,8 @@ interface ExerciseBase {
   title: string;
   difficulty: Difficulty;
   concept: string;
+  /** id do registro em `concepts` no Supabase — usado para atualizar `concept_mastery` (Fase 7). */
+  conceptId: string;
   instruction: string;
   hints: Hint[];
 }
@@ -36,6 +38,8 @@ export interface OrderExercise extends ExerciseBase {
 export type Exercise = CodeExercise | OrderExercise;
 
 export interface Lesson {
+  /** id do registro em `lessons` no Supabase — usado para gravar `student_progress` (Fase 7). */
+  id: string;
   slug: string;
   moduleSlug: string;
   order: number;

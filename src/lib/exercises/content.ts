@@ -71,12 +71,13 @@ function mapHint(row: HintRow): Hint {
   return { order: row.ordem as Hint["order"], text: row.texto };
 }
 
-function mapExercise(row: ExerciseRow, conceptChave: string): Exercise {
+function mapExercise(row: ExerciseRow, conceptChave: string, conceptId: string): Exercise {
   const base = {
     id: row.id,
     title: row.titulo,
     difficulty: row.dificuldade,
     concept: conceptChave,
+    conceptId,
     instruction: row.instrucao,
     hints: [...row.hints].sort((a, b) => a.ordem - b.ordem).map(mapHint),
   };
@@ -95,6 +96,7 @@ function mapLesson(row: LessonRow, moduleSlug: string): Lesson | null {
 
   const conteudo = row.conteudo_json;
   return {
+    id: row.id,
     slug: row.slug,
     moduleSlug,
     order: row.ordem,
@@ -104,7 +106,7 @@ function mapLesson(row: LessonRow, moduleSlug: string): Lesson | null {
     difficulty: conteudo.difficulty,
     concept: conteudo.concept,
     example: conteudo.example,
-    challenge: mapExercise(exerciseRow, concept.chave),
+    challenge: mapExercise(exerciseRow, concept.chave, concept.id),
     miniProject: conteudo.miniProject,
     summary: conteudo.summary,
     nextLessonSlug: conteudo.nextLessonSlug,
