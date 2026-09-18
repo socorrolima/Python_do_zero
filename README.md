@@ -7,9 +7,13 @@ PROJETO. Ver `PEDAGOGICAL_METHOD.md` para o método completo e
 
 ## Status
 
-Fase 2 do desenvolvimento incremental: projeto Next.js criado, estrutura de
-pastas e rotas do MVP em vigor, ainda sem interface real, banco de dados nem
-autenticação. As páginas atuais são placeholders.
+Fase 3 do desenvolvimento incremental: interface funcional dos Módulos 1 e 2
+com dados mockados (sem Supabase ainda). Dá para navegar a trilha, fazer as
+6 aulas do MVP, resolver os exercícios (com dicas e feedback) e ver o
+progresso — tudo guardado em `localStorage` do navegador, sem persistência
+real nem autenticação. O Laboratório e o editor de código usam um mock que
+só entende `print("texto")` e comentários; Python completo (Pyodide) chega
+na Fase 6.
 
 ## Tecnologias
 

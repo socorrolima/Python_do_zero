@@ -6,10 +6,13 @@
    documento de Fase 1: arquitetura, mapa de navegação, modelo de dados,
    componentes, MVP, fluxo pedagógico, fluxo adaptativo, estrutura de
    pastas).
-2. **Criar projeto Next.js** — concluído (este commit). TypeScript,
-   Tailwind, ESLint, estrutura de pastas, Git.
-3. **Interface** — Home, navegação, trilha, aula, dashboard, com dados
-   mockados.
+2. **Criar projeto Next.js** — concluído. TypeScript, Tailwind, ESLint,
+   estrutura de pastas, Git.
+3. **Interface** — concluído. Trilha, aula, laboratório e dashboard
+   funcionais com dados mockados (`src/data/curriculum.ts`) e progresso em
+   `localStorage` (`lib/learning/ProgressContext.tsx`). Editor de código
+   usa um mock runner (`lib/python/mockRunner.ts`) que só entende
+   `print()` e comentários — suficiente para os Módulos 1-2.
 4. **Supabase** — banco, autenticação, tabelas, RLS.
 5. **Exercícios** — cadastro e renderização a partir do banco.
 6. **Execução segura de Python** — integração do Pyodide.
