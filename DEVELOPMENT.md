@@ -67,8 +67,56 @@
    (`exercises!inner(concept_id)`) segue o padrão documentado do
    PostgREST/supabase-js, mas só será validada de fato quando alguém
    resolver um exercício com o banco configurado.
-9. **Testes**.
-10. **Deploy na Vercel**.
+9. **Testes** — concluído (parcialmente, ver limites abaixo). Vitest +
+   Testing Library, rodando sob jsdom (não Turbopack — ver
+   `vitest.config.mts`). Cobertura real (`npm run test:coverage`): ~46%
+   statements / ~39% branches no projeto todo, concentrada de propósito nas
+   partes que o item 31 do prompt mestre pede:
+   - **Sistema adaptativo**: `AdaptiveLearningService.test.ts` — as duas
+     regras (`recommendFromSingleAttempt`, `recommendFromHistory`),
+     incluindo os limiares 85%/60% exatos (inclusivo/exclusivo).
+   - **Validação de respostas**: `pyodideRunner.test.ts`
+     (`matchesExpectedOutput`) e `errorMessages.test.ts`
+     (`translatePythonError`, todos os 11 tipos de erro pedagógico + 2
+     casos de borda).
+   - **Autenticação**: `authErrors.test.ts` (tradução de mensagens do
+     Supabase Auth). O fluxo de login/cadastro em si (páginas em
+     `src/app/`) não tem teste automatizado — ver limite abaixo.
+   - **Progresso**: `progressClient.test.ts` (mockando o cliente Supabase
+     por completo — sem tocar rede) e `ProgressContext.test.tsx`
+     (`isLessonUnlocked`, `markLessonCompleted`, `moduleProgress`,
+     `overallProgress`, `resetProgress`), cobrindo a regra de
+     pré-requisito do item 32.
+   - **Exercícios / componentes principais**: `ExercisePrompt.test.tsx`
+     (integra `OrderChallenge` real + `CodeEditor` mockado — Pyodide não
+     roda em jsdom), `HintPanel.test.tsx` (as 3 dicas nunca aparecem de
+     graça, item 10), `OrderChallenge.test.tsx`, `FeedbackCard.test.tsx`.
+
+   **O que ficou de fora, deliberadamente, e por quê:**
+   - `pyodideRunner.runPython` (o próprio worker/Pyodide), o fluxo de
+     login/cadastro nas páginas do App Router, `progressServer.ts` e
+     `lib/exercises/content.ts` (ambos dependem de `next/headers` /
+     Server Components) e os componentes puramente apresentacionais
+     (`Badge`, `Card`, `NavBar`, `ProgressBar`, `ModuleMap`,
+     `DashboardSummary`, `LessonLayout`) não têm teste automatizado —
+     exigiriam um navegador real, um Supabase real, ou trariam pouco
+     valor de regressão (são só marcação/estilo). Continuam cobertos
+     pelo fluxo manual abaixo, que é o critério de qualidade real do
+     item 26 do prompt mestre.
+   - A sintaxe de junção do Supabase (`exercises!inner(concept_id)`) é
+     testada apenas com um mock fiel ao formato de retorno documentado do
+     supabase-js — ainda não foi validada contra um projeto real (mesma
+     ressalva da Fase 8).
+10. **Deploy na Vercel** — em andamento. `package.json` ganhou
+    `engines.node: ">=20.9.0"` (requisito do Next.js 16 — `next/package.json`
+    já declara isso, tornar explícito evita builds em Node antigo fora da
+    Vercel). Passo a passo completo em `README.md` > "Deploy (Vercel)".
+    Falta: repositório no GitHub com o histórico atual enviado (o
+    `git push` para `github.com/socorrolima/Python_do_zero` está sendo
+    feito pelo usuário a partir do ambiente local — o ambiente de
+    desenvolvimento onde este projeto foi construído não tem autorização
+    do proxy de git para esse repositório) e a criação/conexão do projeto
+    na Vercel, que só o usuário pode fazer (conta própria).
 
 Cada fase espera aprovação antes de avançar para a próxima.
 
@@ -89,17 +137,15 @@ npm run dev
 | `npm start` | executa o build |
 | `npm run lint` | ESLint |
 | `npm run seed` | popula o Supabase com os Módulos 1-2 a partir de `src/data/curriculum.ts` |
+| `npm run test` | roda a suíte de testes (Vitest) uma vez |
+| `npm run test:watch` | Vitest em modo watch |
+| `npm run test:coverage` | roda a suíte com relatório de cobertura (texto + HTML em `coverage/`) |
 
-## Testes (a partir da Fase 9)
+## Testes (Fase 9)
 
-Cobertura planejada:
-
-- Autenticação
-- Progresso
-- Exercícios
-- Validação de respostas
-- Sistema adaptativo
-- Componentes principais
+63 testes automatizados em 10 arquivos (`npm run test`), cobrindo o que o
+item 31 do prompt mestre pede — ver a seção da Fase 9 acima para o
+detalhamento por área e o que ficou de fora e por quê.
 
 Fluxo manual completo a validar antes de cada release:
 

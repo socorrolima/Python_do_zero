@@ -7,7 +7,16 @@ PROJETO. Ver `PEDAGOGICAL_METHOD.md` para o método completo e
 
 ## Status
 
-Fase 8 do desenvolvimento incremental: sistema adaptativo completo. A
+Fase 9 do desenvolvimento incremental: testes automatizados. 63 testes
+(Vitest + Testing Library, ver `DEVELOPMENT.md` para o detalhamento) cobrem
+o sistema adaptativo, a validação de respostas/erros, o progresso e os
+componentes principais de exercício. Ficam de fora — por dependerem de
+navegador ou Supabase reais, ou por serem puramente apresentacionais — a
+execução de Python via Pyodide, o fluxo de login/cadastro e os componentes
+de UI sem lógica; esses continuam cobertos pelo fluxo manual descrito em
+"Testes" abaixo.
+
+Fase 8: sistema adaptativo completo. A
 cada tentativa de exercício, `src/lib/learning/progressClient.ts` busca
 as últimas 5 tentativas do aluno naquele conceito (em `exercise_attempts`,
 via Supabase) e usa `AdaptiveLearningService.recommendFromHistory` — a
@@ -98,15 +107,44 @@ npm run lint
 
 ## Testes
 
-Ainda não implementados — previstos a partir da Fase 9, cobrindo
-autenticação, progresso, exercícios, validação de respostas e o sistema
-adaptativo (ver `DEVELOPMENT.md`).
+```bash
+npm run test           # roda a suíte uma vez
+npm run test:watch     # modo watch
+npm run test:coverage  # com relatório de cobertura
+```
 
-## Deploy
+63 testes automatizados (Vitest + Testing Library) — detalhamento de
+cobertura e limites conhecidos em `DEVELOPMENT.md`. O fluxo manual completo
+(cadastro → login → dashboard → aula → código → exercício → feedback →
+progresso) continua sendo o critério final de qualidade (item 26 do prompt
+mestre) e deve ser validado à mão antes de cada release, contra um projeto
+Supabase real e num navegador real — nem o Pyodide nem a leitura de sessão
+via cookies são exercitados pelos testes automatizados.
 
-Pensado para a [Vercel](https://vercel.com): conectar o repositório e
-configurar as mesmas variáveis de ambiente do `.env.local` no painel do
-projeto.
+## Deploy (Vercel)
+
+1. Suba este repositório para o GitHub (`git push`), se ainda não estiver lá.
+2. Em [vercel.com/new](https://vercel.com/new), importe o repositório —
+   a Vercel detecta o Next.js automaticamente, sem configuração extra de
+   build.
+3. Antes do primeiro deploy, adicione em **Project Settings > Environment
+   Variables** as três variáveis do `.env.local` (mesmos valores do seu
+   projeto Supabase):
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY` (só é lida no servidor, mas precisa estar
+     lá para o app buildar sem avisos e para uma futura área administrativa)
+4. Deploy. Requisito mínimo: Node 20.9+ (a Vercel já usa uma versão mais
+   nova por padrão — só importa se você rodar o build em outro lugar).
+5. Depois do primeiro deploy, confirme que a migração
+   (`supabase/migrations/0001_init.sql`) e o `npm run seed` já foram
+   rodados contra o **mesmo** projeto Supabase apontado nas variáveis
+   acima — a Vercel não roda isso por você.
+
+Sem as variáveis de ambiente configuradas, o app builda e sobe normalmente
+(páginas públicas funcionam), mas login, cadastro e qualquer leitura/escrita
+no Supabase ficam inativos — mesmo comportamento descrito na seção
+"Configuração" acima, só que em produção.
 
 ## Estrutura de pastas
 

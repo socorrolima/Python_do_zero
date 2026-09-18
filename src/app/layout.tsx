@@ -13,7 +13,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className="h-full antialiased">
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      {/* suppressHydrationWarning só no <body>: extensões de navegador (ex.:
+          ColorZilla) injetam atributos como cz-shortcut-listen="true" nele
+          antes do React hidratar, o que gera um falso positivo de
+          hydration mismatch — não é bug do nosso código. */}
+      <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }

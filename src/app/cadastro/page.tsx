@@ -20,19 +20,31 @@ export default function CadastroPage() {
     setLoading(true);
     setError(null);
 
-    const supabase = createClient();
-    const { error: authError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { nome } },
-    });
+    try {
+      const supabase = createClient();
+      const { error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { nome } },
+      });
 
-    setLoading(false);
-    if (authError) {
-      setError(translateAuthError(authError.message));
-      return;
+      if (authError) {
+        setError(translateAuthError(authError.message));
+        return;
+      }
+      setConfirmationSent(true);
+    } catch (err) {
+      // Cobre falhas que não vêm como `{ error }` do Supabase — por exemplo,
+      // NEXT_PUBLIC_SUPABASE_URL/ANON_KEY ausentes ou inválidas (variáveis de
+      // ambiente embutidas no build; adicionadas depois exigem um novo
+      // deploy). Sem este catch, o botão ficava preso em "Criando conta…"
+      // para sempre, porque a exceção interrompia a função antes do
+      // `setLoading(false)`.
+      console.error("[cadastro] Falha inesperada ao criar conta.", err);
+      setError(translateAuthError(err instanceof Error ? err.message : String(err)));
+    } finally {
+      setLoading(false);
     }
-    setConfirmationSent(true);
   }
 
   if (confirmationSent) {

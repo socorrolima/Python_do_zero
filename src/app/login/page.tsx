@@ -20,18 +20,27 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const supabase = createClient();
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    try {
+      const supabase = createClient();
+      const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
 
-    setLoading(false);
-    if (authError) {
-      setError(translateAuthError(authError.message));
-      return;
+      if (authError) {
+        setError(translateAuthError(authError.message));
+        return;
+      }
+
+      const redirectTo = new URLSearchParams(window.location.search).get("redirectTo");
+      router.push(redirectTo || "/aprender");
+      router.refresh();
+    } catch (err) {
+      // Mesmo motivo do cadastro (ver comentário lá): sem isto, uma falha na
+      // criação do cliente Supabase (ex.: env vars ausentes/erradas) travava
+      // o botão em "Entrando…" para sempre.
+      console.error("[login] Falha inesperada ao entrar.", err);
+      setError(translateAuthError(err instanceof Error ? err.message : String(err)));
+    } finally {
+      setLoading(false);
     }
-
-    const redirectTo = new URLSearchParams(window.location.search).get("redirectTo");
-    router.push(redirectTo || "/aprender");
-    router.refresh();
   }
 
   return (

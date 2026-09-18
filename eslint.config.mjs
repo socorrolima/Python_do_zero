@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Saída gerada por `npm run test:coverage` (Fase 9) — nunca versionada.
+    "coverage/**",
   ]),
 ]);
 
