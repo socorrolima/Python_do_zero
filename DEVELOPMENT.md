@@ -51,7 +51,22 @@
    fallback mockado, cujos ids não são uuids válidos no Supabase).
    Botão "Reiniciar progresso" em `/progresso` agora apaga de verdade
    (com confirmação) em vez de só limpar o `localStorage`.
-8. **Sistema adaptativo** — `AdaptiveLearningService` completo.
+8. **Sistema adaptativo** — concluído. `recordExerciseAttempt` (em
+   `progressClient.ts`) passou a buscar as últimas `HISTORY_WINDOW = 5`
+   tentativas do aluno para o `concept_id` da tentativa atual (junção com
+   `exercises` via `exercises!inner(concept_id)`) e chamar
+   `AdaptiveLearningService.recommendFromHistory` — a regra real de
+   85%/60%, que já existia desde a Fase 3 mas não estava sendo usada.
+   `concept_mastery.nivel_dominio` passa a ser a taxa de acerto desse
+   histórico (não mais o incremento ad-hoc da Fase 7).
+   `ExercisePrompt` ficou assíncrono: grava a tentativa, espera a
+   recomendação, e só então mostra avançar/manter/revisar — se não
+   houver histórico (sem sessão, escrita falhou, currículo mockado),
+   cai de volta para `recommendFromSingleAttempt` em vez de não mostrar
+   nada. **Não testado contra um Supabase real** — a sintaxe da junção
+   (`exercises!inner(concept_id)`) segue o padrão documentado do
+   PostgREST/supabase-js, mas só será validada de fato quando alguém
+   resolver um exercício com o banco configurado.
 9. **Testes**.
 10. **Deploy na Vercel**.
 

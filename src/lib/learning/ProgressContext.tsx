@@ -1,7 +1,8 @@
 "use client";
 
 import { createContext, useContext, useMemo, useState } from "react";
-import type { Lesson, Module } from "@/types/curriculum";
+import type { Difficulty, Lesson, Module } from "@/types/curriculum";
+import type { AdaptiveRecommendation } from "./AdaptiveLearningService";
 import { upsertLessonCompleted, recordExerciseAttempt, resetAllProgress } from "./progressClient";
 
 interface ProgressSummary {
@@ -12,7 +13,9 @@ interface ProgressSummary {
 
 interface RecordAttemptInput {
   exerciseId: string;
+  concept: string;
   conceptId: string;
+  difficulty: Difficulty;
   correct: boolean;
   hintsUsed: number;
 }
@@ -20,7 +23,8 @@ interface RecordAttemptInput {
 interface ProgressContextValue {
   completedLessons: Set<string>;
   markLessonCompleted: (slug: string) => void;
-  recordAttempt: (input: RecordAttemptInput) => void;
+  /** Grava a tentativa e devolve a recomendação do sistema adaptativo (Fase 8) — `undefined` se não deu para calcular. */
+  recordAttempt: (input: RecordAttemptInput) => Promise<AdaptiveRecommendation | undefined>;
   isLessonUnlocked: (lesson: Lesson) => boolean;
   moduleProgress: (module: Module) => ProgressSummary;
   overallProgress: () => ProgressSummary;
@@ -60,9 +64,7 @@ export function ProgressProvider({
       if (lesson) void upsertLessonCompleted(lesson.id);
     };
 
-    const recordAttempt = (input: RecordAttemptInput) => {
-      void recordExerciseAttempt(input);
-    };
+    const recordAttempt = (input: RecordAttemptInput) => recordExerciseAttempt(input);
 
     const isLessonUnlocked = (lesson: Lesson) => {
       const index = allLessons.findIndex((l) => l.slug === lesson.slug);

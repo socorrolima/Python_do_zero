@@ -2,12 +2,18 @@ import type { Difficulty } from "@/types/curriculum";
 
 /**
  * AdaptiveLearningService — módulo único e configurável (item 8 do prompt
- * mestre). Nesta fase (3) só recebe o resultado de UMA tentativa, porque
- * ainda não há histórico persistido (`exercise_attempts` chega na Fase 4).
- * A partir da Fase 8, `recommend()` passa a receber o histórico recente do
- * aluno para aquele conceito e aplicar a regra de 85%/60% descrita em
- * ARCHITECTURE.md — a assinatura pública deste serviço já é pensada para
- * essa troca sem alterar quem o consome.
+ * mestre): toda a regra de avançar/manter/revisar dificuldade mora aqui,
+ * nunca espalhada pelos componentes.
+ *
+ * `recommendFromHistory` é a regra real, em uso desde a Fase 8:
+ * `src/lib/learning/progressClient.ts` busca as últimas tentativas do
+ * aluno para o conceito (de `exercise_attempts`, via Supabase) e aplica a
+ * regra de 85%/60% descrita em ARCHITECTURE.md.
+ *
+ * `recommendFromSingleAttempt` continua existindo como modo degradado:
+ * `ExercisePrompt` usa ela quando não há histórico disponível (sem
+ * sessão, escrita no Supabase falhou, ou o currículo ainda está no
+ * fallback mockado) — sinal isolado é melhor do que nenhum feedback.
  */
 
 export interface AdaptiveConfig {
@@ -69,8 +75,8 @@ export function recommendFromSingleAttempt(
 }
 
 /**
- * Recomendação a partir de um histórico de tentativas (formato usado a
- * partir da Fase 8, já implementado para permitir testes desde já).
+ * Recomendação a partir de um histórico de tentativas — a regra real,
+ * usada em produção desde a Fase 8 (ver `progressClient.ts`).
  */
 export function recommendFromHistory(
   concept: string,

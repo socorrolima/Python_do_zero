@@ -7,27 +7,26 @@ PROJETO. Ver `PEDAGOGICAL_METHOD.md` para o método completo e
 
 ## Status
 
-Fase 7 do desenvolvimento incremental: progresso do aluno gravado de
-verdade no Supabase, substituindo o `localStorage` das Fases 3-6.
-Concluir uma aula grava em `student_progress`; resolver um exercício
-grava a tentativa em `exercise_attempts` e atualiza `concept_mastery`
-(uma regra simples por enquanto — o ajuste fino é da Fase 8). O layout
-busca o progresso já pronto no servidor (`src/lib/learning/progressServer.ts`)
-e as ações do aluno gravam pelo navegador
-(`src/lib/learning/progressClient.ts`); tudo em "melhor esforço" — se a
-gravação falhar (por exemplo, o currículo ainda estar no fallback
-mockado, cujos ids não são uuids reais), a interface continua funcionando
-e só um aviso aparece no console.
+Fase 8 do desenvolvimento incremental: sistema adaptativo completo. A
+cada tentativa de exercício, `src/lib/learning/progressClient.ts` busca
+as últimas 5 tentativas do aluno naquele conceito (em `exercise_attempts`,
+via Supabase) e usa `AdaptiveLearningService.recommendFromHistory` — a
+regra de 85%/60% do item 8 do prompt mestre — para decidir avançar,
+manter ou revisar, e para gravar `concept_mastery` com a taxa de acerto
+real. Continua sendo um módulo único e configurável
+(`src/lib/learning/AdaptiveLearningService.ts`), não uma regra espalhada
+pelos componentes.
 
-Como nas fases anteriores, sem `.env.local`/seed configurados o app não
-quebra: o progresso simplesmente não persiste entre sessões (mesmo
-comportamento de antes, só que agora é a ausência de configuração real
-que explica isso, não uma limitação da Fase 3).
+Sem histórico disponível (sem sessão, escrita no Supabase falhou, ou o
+currículo ainda no fallback mockado), `ExercisePrompt` degrada de volta
+para `recommendFromSingleAttempt` — o sinal de uma tentativa só, usado
+desde a Fase 3 — em vez de não dar feedback nenhum.
 
-Autenticação (Supabase Auth), conteúdo (módulos/aulas/exercícios do
-Supabase, com fallback mockado) e execução real de Python via Pyodide
-continuam como nas Fases 4-6 — a ressalva sobre Pyodide não ter sido
-testado num navegador real (só build/lint) ainda vale.
+Progresso (`student_progress`), autenticação (Supabase Auth), conteúdo
+(módulos/aulas/exercícios do Supabase, com fallback mockado) e execução
+real de Python via Pyodide continuam como nas Fases 4-7 — a ressalva
+sobre Pyodide não ter sido testado num navegador real (só build/lint)
+ainda vale.
 
 ## Tecnologias
 

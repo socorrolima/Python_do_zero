@@ -4,7 +4,10 @@ import { useState } from "react";
 import { CodeEditor } from "@/components/code-editor/CodeEditor";
 import { useProgress } from "@/lib/learning/ProgressContext";
 import { matchesExpectedOutput } from "@/lib/python/pyodideRunner";
-import { recommendFromSingleAttempt } from "@/lib/learning/AdaptiveLearningService";
+import {
+  recommendFromSingleAttempt,
+  type AdaptiveRecommendation,
+} from "@/lib/learning/AdaptiveLearningService";
 import type { Exercise } from "@/types/curriculum";
 import { HintPanel } from "./HintPanel";
 import { FeedbackCard } from "./FeedbackCard";
@@ -18,30 +21,40 @@ interface ExercisePromptProps {
 export function ExercisePrompt({ exercise, onSolved }: ExercisePromptProps) {
   const { recordAttempt } = useProgress();
   const [correct, setCorrect] = useState<boolean | null>(null);
+  const [recommendation, setRecommendation] = useState<AdaptiveRecommendation | undefined>();
   // Dicas vistas desde a última tentativa deste exercício — vai junto com
   // a tentativa gravada em `exercise_attempts` (Fase 7), não é um estado
   // global: cada submissão registra quantas dicas levaram até ali.
   const [hintsUsed, setHintsUsed] = useState(0);
 
-  function handleAttempt(isCorrect: boolean) {
+  async function handleAttempt(isCorrect: boolean) {
     setCorrect(isCorrect);
-    recordAttempt({
+    setRecommendation(undefined); // aparece de novo assim que o histórico (Fase 8) responder
+
+    const historyBased = await recordAttempt({
       exerciseId: exercise.id,
+      concept: exercise.concept,
       conceptId: exercise.conceptId,
+      difficulty: exercise.difficulty,
       correct: isCorrect,
       hintsUsed,
     });
+
+    // Sem histórico disponível (sem sessão, escrita falhou, ou currículo
+    // ainda no fallback mockado) — degrada para o sinal de uma tentativa
+    // só, em vez de não dar feedback nenhum.
+    setRecommendation(
+      historyBased ??
+        recommendFromSingleAttempt({
+          concept: exercise.concept,
+          difficulty: exercise.difficulty,
+          correct: isCorrect,
+          hintsUsed,
+        }),
+    );
+
     if (isCorrect) onSolved?.();
   }
-
-  const recommendation = correct === null
-    ? undefined
-    : recommendFromSingleAttempt({
-        concept: exercise.concept,
-        difficulty: exercise.difficulty,
-        correct,
-        hintsUsed,
-      });
 
   return (
     <div className="space-y-4">
@@ -55,10 +68,10 @@ export function ExercisePrompt({ exercise, onSolved }: ExercisePromptProps) {
           starterCode={exercise.starterCode}
           onResult={(result) => {
             if (result.error) {
-              handleAttempt(false);
+              void handleAttempt(false);
               return;
             }
-            handleAttempt(matchesExpectedOutput(result.output, exercise.expectedOutput));
+            void handleAttempt(matchesExpectedOutput(result.output, exercise.expectedOutput));
           }}
         />
       ) : (
