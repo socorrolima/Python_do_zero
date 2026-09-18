@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Python do Zero
 
-## Getting Started
+Plataforma web para ensinar Python a pessoas que nunca programaram, com
+metodologia CONCEITO → EXEMPLO → EXPERIMENTAÇÃO → DESAFIO → FEEDBACK →
+PROJETO. Ver `PEDAGOGICAL_METHOD.md` para o método completo e
+`ARCHITECTURE.md` / `DATABASE.md` para as decisões técnicas.
 
-First, run the development server:
+## Status
+
+Fase 2 do desenvolvimento incremental: projeto Next.js criado, estrutura de
+pastas e rotas do MVP em vigor, ainda sem interface real, banco de dados nem
+autenticação. As páginas atuais são placeholders.
+
+## Tecnologias
+
+- [Next.js](https://nextjs.org) 16 (App Router) + TypeScript
+- [Tailwind CSS](https://tailwindcss.com) 4
+- [Supabase](https://supabase.com) (PostgreSQL + Auth) — a partir da Fase 4
+- [Pyodide](https://pyodide.org) para execução de Python no navegador — a partir da Fase 6
+- Deploy: [Vercel](https://vercel.com)
+
+## Instalação
+
+```bash
+npm install
+```
+
+## Configuração
+
+Copie `.env.local.example` para `.env.local` e preencha com as credenciais do
+seu projeto Supabase (Project Settings > API):
+
+```bash
+cp .env.local.example .env.local
+```
+
+| Variável | Onde é usada |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | Cliente (browser) e servidor |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Cliente (browser) e servidor |
+| `SUPABASE_SERVICE_ROLE_KEY` | Apenas servidor — nunca expor ao cliente |
+
+Antes da Fase 4, o projeto roda sem essas variáveis (as páginas ainda não
+acessam o Supabase).
+
+## Execução local
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build de produção
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Lint
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Testes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ainda não implementados — previstos a partir da Fase 9, cobrindo
+autenticação, progresso, exercícios, validação de respostas e o sistema
+adaptativo (ver `DEVELOPMENT.md`).
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Pensado para a [Vercel](https://vercel.com): conectar o repositório e
+configurar as mesmas variáveis de ambiente do `.env.local` no painel do
+projeto.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Estrutura de pastas
+
+```
+src/
+├── app/            # Rotas (App Router)
+├── components/     # UI por domínio (ui, lesson, code-editor, exercise, progress, dashboard)
+├── lib/            # Serviços (supabase, learning, exercises, python)
+├── types/          # Tipos compartilhados
+└── data/           # Dados de apoio para desenvolvimento local
+```
+
+Detalhes de cada decisão em `ARCHITECTURE.md`.
