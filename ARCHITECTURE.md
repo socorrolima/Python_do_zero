@@ -58,8 +58,11 @@ para WebAssembly), executado inteiramente no navegador.
   Puro, sem dependência de UI ou de rota.
 - `lib/exercises/` — avalia a tentativa do aluno contra `expected_behavior`,
   gera o feedback pedagógico.
-- `lib/python/` — carrega o Pyodide, executa o código em worker isolado,
-  captura stdout/stderr, aplica timeout.
+- `lib/python/` — orquestra o Pyodide (carregamento, timeout, tradução de
+  erros). O worker isolado em si (`public/workers/pyodide-worker.js`)
+  precisou ficar em `public/` — ver a nota no `DEVELOPMENT.md` sobre a
+  limitação do Turbopack para compilar workers referenciados a partir de
+  `src/`.
 - `lib/supabase/` — clientes Supabase separados por contexto (browser vs.
   server component), nunca misturados.
 

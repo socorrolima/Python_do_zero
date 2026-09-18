@@ -7,31 +7,34 @@ PROJETO. Ver `PEDAGOGICAL_METHOD.md` para o método completo e
 
 ## Status
 
-Fase 5 do desenvolvimento incremental: autenticação real via Supabase Auth
-(login, cadastro, logout, rotas protegidas em `proxy.ts` — Fase 4) e,
-agora, o currículo (módulos, aulas, exercícios e dicas) buscado do
-Supabase em vez de dados hardcoded (`src/lib/exercises/content.ts`).
+Fase 6 do desenvolvimento incremental: execução real de Python no
+navegador via [Pyodide](https://pyodide.org) (WebAssembly), substituindo
+o interpretador simulado das Fases 3-5. O código do aluno — no
+Laboratório e no "Experimente"/exercício de cada aula — agora roda Python
+de verdade, dentro de um Web Worker dedicado
+(`public/workers/pyodide-worker.js`), com timeout automático (protege a
+aba de travar num loop infinito) e erros reais do Python traduzidos para
+mensagens pedagógicas (`src/lib/python/errorMessages.ts`).
 
-Sem `.env.local` configurado e sem o seed rodado, o app **continua
-funcionando normalmente**: `src/lib/exercises/content.ts` cai de volta
-para o currículo mockado de `src/data/curriculum.ts` sempre que o
-Supabase não responde ou as tabelas de conteúdo estão vazias — só um
-aviso aparece no log do servidor. Depois de rodar a migração e
-`npm run seed`, o mesmo código passa a servir o conteúdo real do banco,
-sem nenhuma mudança nos componentes.
+**Importante, com honestidade:** este ambiente de desenvolvimento não tem
+um navegador real para clicar em "Executar" e confirmar visualmente o
+resultado — a verificação aqui foi build + lint limpos e a confirmação de
+que o worker é servido corretamente como JavaScript puro
+(`curl localhost:3000/workers/pyodide-worker.js`). A primeira execução de
+verdade, num navegador, é o teste que falta — vale rodar localmente e
+testar o Laboratório antes de considerar a fase 100% validada.
 
-Progresso do aluno ainda é local (`localStorage`) — migra para
-`student_progress`/`concept_mastery` reais na Fase 7 — e o Laboratório
-ainda usa um interpretador Python simulado que só entende
-`print("texto")` e comentários; Python completo (Pyodide) chega na
-Fase 6.
+Autenticação (Supabase Auth) e conteúdo (módulos/aulas/exercícios do
+Supabase, com fallback mockado) continuam como nas Fases 4-5. Progresso
+do aluno ainda é local (`localStorage`) — migra para
+`student_progress`/`concept_mastery` reais na Fase 7.
 
 ## Tecnologias
 
 - [Next.js](https://nextjs.org) 16 (App Router) + TypeScript
 - [Tailwind CSS](https://tailwindcss.com) 4
 - [Supabase](https://supabase.com) (PostgreSQL + Auth) — desde a Fase 4
-- [Pyodide](https://pyodide.org) para execução de Python no navegador — a partir da Fase 6
+- [Pyodide](https://pyodide.org) para execução de Python no navegador — desde a Fase 6
 - Deploy: [Vercel](https://vercel.com)
 
 ## Instalação

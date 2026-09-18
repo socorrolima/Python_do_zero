@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CodeEditor } from "@/components/code-editor/CodeEditor";
 import { useProgress } from "@/lib/learning/ProgressContext";
-import { matchesExpectedOutput } from "@/lib/python/mockRunner";
+import { matchesExpectedOutput } from "@/lib/python/pyodideRunner";
 import { recommendFromSingleAttempt } from "@/lib/learning/AdaptiveLearningService";
 import type { Exercise } from "@/types/curriculum";
 import { HintPanel } from "./HintPanel";
