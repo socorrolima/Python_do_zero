@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useMemo, useSyncExternalStore } from "react";
-import { getAllLessonsInOrder } from "@/data/curriculum";
 import type { Lesson, Module } from "@/types/curriculum";
 import {
   getSnapshot,
@@ -30,9 +29,15 @@ interface ProgressContextValue {
 
 const ProgressContext = createContext<ProgressContextValue | null>(null);
 
-export function ProgressProvider({ children }: { children: React.ReactNode }) {
+interface ProgressProviderProps {
+  children: React.ReactNode;
+  /** Currículo (do Supabase, com fallback mockado) buscado no layout do servidor. */
+  modules: Module[];
+}
+
+export function ProgressProvider({ children, modules }: ProgressProviderProps) {
   const state = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-  const allLessons = useMemo(() => getAllLessonsInOrder(), []);
+  const allLessons = useMemo(() => modules.flatMap((m) => m.lessons), [modules]);
 
   const value = useMemo<ProgressContextValue>(() => {
     const completedLessons = new Set(state.completedLessons);

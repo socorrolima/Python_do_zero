@@ -1,10 +1,14 @@
 import type { Module } from "@/types/curriculum";
 
 /**
- * Dados mockados do currículo (Fase 3). A partir da Fase 4 isto passa a vir
- * do Supabase (tabelas modules/lessons/concepts/exercises/hints — ver
- * DATABASE.md). Só os Módulos 1 e 2 têm aulas reais, conforme o escopo do
- * MVP definido na Fase 1.
+ * Fonte única do conteúdo dos Módulos 1 e 2. Desde a Fase 5, o app não lê
+ * este arquivo diretamente — `src/lib/exercises/content.ts` busca o
+ * currículo no Supabase (tabelas modules/lessons/concepts/exercises/hints
+ * — ver DATABASE.md) e só cai de volta para os dados daqui se o banco
+ * ainda não tiver sido configurado/populado. `scripts/seed.ts` lê este
+ * mesmo arquivo para popular o Supabase (`npm run seed`), então editar o
+ * conteúdo aqui é o jeito de mudar as aulas — nenhum componente React tem
+ * texto de aula hardcoded.
  */
 export const MODULES: Module[] = [
   {

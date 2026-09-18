@@ -20,8 +20,14 @@
    `supabase/migrations/0001_init.sql` (tabelas + RLS). A migração ainda
    não foi executada contra um projeto real — falta o usuário criar o
    projeto no Supabase, rodar a migração e preencher `.env.local`.
-5. **Exercícios** — cadastro e renderização a partir do banco (ainda usa
-   `src/data/curriculum.ts` mockado).
+5. **Exercícios** — concluído. `src/lib/exercises/content.ts` busca
+   módulos/aulas/conceitos/exercícios/dicas do Supabase e devolve os
+   mesmos tipos que os componentes já usavam (`@/types/curriculum`) —
+   nenhum componente muda. Se o Supabase não estiver configurado ou as
+   tabelas estiverem vazias, cai de volta para `src/data/curriculum.ts`
+   (mesma fonte usada por `scripts/seed.ts`, `npm run seed`) sem quebrar a
+   página. `generateStaticParams` de `/aula/[slug]` foi removido — a rota
+   passou a ser dinâmica, coerente com conteúdo que agora vem do banco.
 6. **Execução segura de Python** — integração do Pyodide.
 7. **Progresso** — `student_progress`, `concept_mastery` reais.
 8. **Sistema adaptativo** — `AdaptiveLearningService` completo.
@@ -46,6 +52,7 @@ npm run dev
 | `npm run build` | build de produção |
 | `npm start` | executa o build |
 | `npm run lint` | ESLint |
+| `npm run seed` | popula o Supabase com os Módulos 1-2 a partir de `src/data/curriculum.ts` |
 
 ## Testes (a partir da Fase 9)
 

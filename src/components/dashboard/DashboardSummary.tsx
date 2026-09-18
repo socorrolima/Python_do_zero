@@ -4,15 +4,15 @@ import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { useProgress } from "@/lib/learning/ProgressContext";
-import { MODULES } from "@/data/curriculum";
+import type { Module } from "@/types/curriculum";
 
-export function DashboardSummary() {
+export function DashboardSummary({ modules }: { modules: Module[] }) {
   const { overallProgress, moduleProgress, completedLessons, resetProgress } = useProgress();
   const overall = overallProgress();
 
   const currentModule =
-    MODULES.find((m) => m.lessons.length > 0 && moduleProgress(m).percent < 100) ??
-    MODULES.find((m) => m.lessons.length > 0);
+    modules.find((m) => m.lessons.length > 0 && moduleProgress(m).percent < 100) ??
+    modules.find((m) => m.lessons.length > 0);
 
   const nextLesson = currentModule?.lessons.find((l) => !completedLessons.has(l.slug));
 
@@ -46,7 +46,8 @@ export function DashboardSummary() {
           <p className="text-sm text-slate-500">Você ainda não concluiu nenhuma aula.</p>
         ) : (
           <ul className="list-inside list-disc text-sm">
-            {MODULES.flatMap((m) => m.lessons)
+            {modules
+              .flatMap((m) => m.lessons)
               .filter((l) => completedLessons.has(l.slug))
               .map((l) => (
                 <li key={l.slug}>{l.title}</li>
@@ -60,7 +61,7 @@ export function DashboardSummary() {
         onClick={resetProgress}
         className="text-xs text-slate-400 underline hover:text-slate-600"
       >
-        Reiniciar progresso (apenas para teste — some com a Fase 4)
+        Reiniciar progresso (apenas para teste — some com a Fase 7)
       </button>
     </div>
   );
