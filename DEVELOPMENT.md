@@ -13,8 +13,15 @@
    `localStorage` (`lib/learning/ProgressContext.tsx`). Editor de código
    usa um mock runner (`lib/python/mockRunner.ts`) que só entende
    `print()` e comentários — suficiente para os Módulos 1-2.
-4. **Supabase** — banco, autenticação, tabelas, RLS.
-5. **Exercícios** — cadastro e renderização a partir do banco.
+4. **Supabase** — concluído. Clientes browser/servidor
+   (`lib/supabase/client.ts`, `lib/supabase/server.ts`), proteção de rotas
+   via `src/proxy.ts` (equivalente ao `middleware.ts` no Next 15 — ver
+   Next.js 16), páginas de login/cadastro/logout reais e migração SQL em
+   `supabase/migrations/0001_init.sql` (tabelas + RLS). A migração ainda
+   não foi executada contra um projeto real — falta o usuário criar o
+   projeto no Supabase, rodar a migração e preencher `.env.local`.
+5. **Exercícios** — cadastro e renderização a partir do banco (ainda usa
+   `src/data/curriculum.ts` mockado).
 6. **Execução segura de Python** — integração do Pyodide.
 7. **Progresso** — `student_progress`, `concept_mastery` reais.
 8. **Sistema adaptativo** — `AdaptiveLearningService` completo.
@@ -27,7 +34,7 @@ Cada fase espera aprovação antes de avançar para a próxima.
 
 ```bash
 npm install
-cp .env.local.example .env.local   # preencher a partir da Fase 4
+cp .env.local.example .env.local   # preencher com as credenciais do seu projeto Supabase
 npm run dev
 ```
 

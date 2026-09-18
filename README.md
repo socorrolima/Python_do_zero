@@ -7,13 +7,18 @@ PROJETO. Ver `PEDAGOGICAL_METHOD.md` para o método completo e
 
 ## Status
 
-Fase 3 do desenvolvimento incremental: interface funcional dos Módulos 1 e 2
-com dados mockados (sem Supabase ainda). Dá para navegar a trilha, fazer as
-6 aulas do MVP, resolver os exercícios (com dicas e feedback) e ver o
-progresso — tudo guardado em `localStorage` do navegador, sem persistência
-real nem autenticação. O Laboratório e o editor de código usam um mock que
-só entende `print("texto")` e comentários; Python completo (Pyodide) chega
-na Fase 6.
+Fase 4 do desenvolvimento incremental: autenticação real via Supabase Auth
+(login, cadastro, logout) e rotas protegidas (`/aprender`, `/aula`,
+`/laboratorio`, `/progresso`) via `proxy.ts`. A migração SQL em
+`supabase/migrations/0001_init.sql` cria as tabelas e as políticas de Row
+Level Security, mas ainda **não foi executada contra um projeto Supabase
+real** — sem `.env.local` configurado, o app funciona normalmente (páginas
+públicas em 200, rotas protegidas redirecionam para `/login`), mas
+login/cadastro não vão completar até as credenciais reais serem
+preenchidas. Progresso, exercícios e o Laboratório ainda usam os mocks da
+Fase 3 (`localStorage` e um interpretador Python simulado que só entende
+`print("texto")` e comentários); a migração para dados reais é da Fase 5
+em diante, e Python completo (Pyodide) chega na Fase 6.
 
 ## Tecnologias
 
@@ -44,8 +49,14 @@ cp .env.local.example .env.local
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Cliente (browser) e servidor |
 | `SUPABASE_SERVICE_ROLE_KEY` | Apenas servidor — nunca expor ao cliente |
 
-Antes da Fase 4, o projeto roda sem essas variáveis (as páginas ainda não
-acessam o Supabase).
+Sem essas variáveis o app continua rodando (páginas públicas normalmente,
+rotas protegidas redirecionando para `/login`), mas login e cadastro não
+funcionam de fato até as credenciais reais serem preenchidas.
+
+Depois de configurar as variáveis, execute a migração
+`supabase/migrations/0001_init.sql` no SQL Editor do seu projeto Supabase
+(ou via CLI) para criar as tabelas e as políticas de RLS antes de testar
+login/cadastro.
 
 ## Execução local
 

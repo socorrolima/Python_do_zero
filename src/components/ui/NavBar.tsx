@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LogoutButton } from "./LogoutButton";
 
 const LINKS = [
   { href: "/aprender", label: "Trilha" },
@@ -16,7 +17,7 @@ export function NavBar() {
         <Link href="/" className="font-semibold">
           Python do Zero
         </Link>
-        <ul className="flex gap-4 text-sm">
+        <ul className="flex items-center gap-4 text-sm">
           {LINKS.map((link) => (
             <li key={link.href}>
               <Link href={link.href} className="hover:underline">
@@ -24,6 +25,9 @@ export function NavBar() {
               </Link>
             </li>
           ))}
+          <li>
+            <LogoutButton />
+          </li>
         </ul>
       </nav>
     </header>
