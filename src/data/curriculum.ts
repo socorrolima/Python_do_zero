@@ -278,14 +278,525 @@ export const MODULES: Module[] = [
         },
         summary:
           "Cada print() é uma instrução independente, executada na ordem em que aparece. Você já sabe o suficiente para escrever seu primeiro programa completo.",
+        nextLessonSlug: "o-que-e-uma-variavel",
+      },
+    ],
+  },
+  {
+    slug: "variaveis",
+    order: 3,
+    title: "Variáveis",
+    description:
+      "Guardar nomes, idades e outras informações em variáveis, e conhecer os tipos de dados mais usados.",
+    lessons: [
+      {
+        id: "o-que-e-uma-variavel",
+        slug: "o-que-e-uma-variavel",
+        moduleSlug: "variaveis",
+        order: 1,
+        title: "O que é uma variável?",
+        objective:
+          "Entender o que é uma variável e criar a primeira, guardando um texto nela.",
+        estimatedMinutes: 10,
+        difficulty: 1,
+        concept:
+          "Uma variável é um nome que usamos para guardar uma informação, para poder usá-la de novo mais tarde sem reescrever tudo. Para criar uma, escrevemos o nome, o sinal de igual (=) e o valor: isso se chama atribuição — é como colar uma etiqueta com um nome em uma caixa que guarda um valor.",
+        example: {
+          code: 'nome = "Maria"\nprint(nome)',
+          explanation:
+            'A variável nome guarda o texto "Maria". Quando usamos print(nome) — sem aspas —, o Python mostra o valor guardado dentro dela, não a palavra "nome".',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-3-1",
+          title: "Sua primeira variável",
+          difficulty: 1,
+          concept: "variaveis",
+          conceptId: "variaveis",
+          instruction:
+            'Crie uma variável chamada cidade, guarde nela o texto "Brasília" e depois mostre o conteúdo dela na tela com print().',
+          starterCode: "",
+          expectedOutput: ["Brasília"],
+          hints: [
+            { order: 1, text: "Para criar uma variável, escreva um nome, o sinal = e o valor." },
+            { order: 2, text: "Texto sempre vai entre aspas: cidade = \"Brasília\"." },
+            { order: 3, text: 'cidade = "Brasília"\\nprint(cidade)' },
+          ],
+        },
+        summary:
+          "Uma variável guarda um valor com um nome. Criamos uma com nome = valor, e usamos print(nome_da_variavel), sem aspas, para mostrar o que está guardado nela.",
+        nextLessonSlug: "tipos-de-dados",
+      },
+      {
+        id: "tipos-de-dados",
+        slug: "tipos-de-dados",
+        moduleSlug: "variaveis",
+        order: 2,
+        title: "Tipos de dados: texto, número e verdadeiro/falso",
+        objective:
+          "Reconhecer os três tipos de dados mais comuns: texto (string), número e booleano.",
+        estimatedMinutes: 12,
+        difficulty: 2,
+        concept:
+          "Nem toda informação é do mesmo tipo. Texto (chamado de string) vai sempre entre aspas, como \"Maria\". Número pode ser inteiro, como 25, ou com casas decimais, como 1.70 — sem aspas. E existe um terceiro tipo, o booleano, que só tem dois valores possíveis: True (verdadeiro) ou False (falso), sempre com a primeira letra maiúscula e sem aspas.",
+        example: {
+          code: 'nome = "Maria"\nidade = 25\naltura = 1.70\nmaior_de_idade = True\n\nprint(nome)\nprint(idade)\nprint(altura)\nprint(maior_de_idade)',
+          explanation:
+            "nome é texto (tem aspas), idade é número inteiro, altura é número com casas decimais, e maior_de_idade é um booleano — guarda só True ou False.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-3-2",
+          title: "Três tipos, três variáveis",
+          difficulty: 2,
+          concept: "tipos-de-dados",
+          conceptId: "tipos-de-dados",
+          instruction:
+            "Crie uma variável idade com o número 30, uma variável tem_animal_de_estimacao com o valor True, e mostre as duas na tela, nessa ordem.",
+          starterCode: "",
+          expectedOutput: ["30", "True"],
+          hints: [
+            { order: 1, text: "Número não leva aspas: idade = 30." },
+            { order: 2, text: "Booleano também não leva aspas, e começa com letra maiúscula: True." },
+            { order: 3, text: "idade = 30\\ntem_animal_de_estimacao = True\\nprint(idade)\\nprint(tem_animal_de_estimacao)" },
+          ],
+        },
+        summary:
+          "Texto (string) vai entre aspas, número não leva aspas, e booleano só pode ser True ou False. O tipo do valor muda como o Python o trata, mesmo que a forma de guardá-lo (nome = valor) seja sempre a mesma.",
+        nextLessonSlug: "nomes-de-variaveis",
+      },
+      {
+        id: "nomes-de-variaveis",
+        slug: "nomes-de-variaveis",
+        moduleSlug: "variaveis",
+        order: 3,
+        title: "Nomes de variáveis e boas práticas",
+        objective:
+          "Aprender as regras para nomear variáveis em Python e combinar várias variáveis em um mesmo programa.",
+        estimatedMinutes: 12,
+        difficulty: 2,
+        concept:
+          "Nem todo nome é permitido para uma variável: o nome não pode começar com número, não pode ter espaço (usamos _ no lugar) e diferencia maiúsculas de minúsculas — Nome e nome são duas variáveis diferentes. Além de válido, um bom nome também é claro: idade diz mais que i ou x sobre o que está guardado ali.",
+        example: {
+          code: 'nome_completo = "Ana Souza"\nidade = 28\ncidade_natal = "Belém"\n\nprint(nome_completo)\nprint(idade)\nprint(cidade_natal)',
+          explanation:
+            "nome_completo e cidade_natal usam _ no lugar de espaço, porque um nome de variável não pode ter espaço em branco. Isso deixa o nome válido e ainda fácil de entender.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-3-3",
+          title: "Ficha pessoal, passo a passo",
+          difficulty: 3,
+          concept: "nomes-de-variaveis",
+          conceptId: "nomes-de-variaveis",
+          instruction:
+            'Crie três variáveis — nome com o texto "Carlos", idade com o número 22, e cidade com o texto "Salvador" — e mostre as três na tela, nessa ordem.',
+          starterCode: "",
+          expectedOutput: ["Carlos", "22", "Salvador"],
+          hints: [
+            { order: 1, text: "São três variáveis: uma de texto, uma de número, e outra de texto de novo." },
+            { order: 2, text: "Cada print() mostra uma variável — você vai precisar de três print()." },
+            { order: 3, text: 'nome = "Carlos"\\nidade = 22\\ncidade = "Salvador"\\nprint(nome)\\nprint(idade)\\nprint(cidade)' },
+          ],
+        },
+        miniProject: {
+          title: "Ficha pessoal",
+          description:
+            "Crie pelo menos quatro variáveis sobre você (ou um personagem inventado): nome, idade, cidade e uma outra informação à sua escolha (profissão, hobby, o que quiser). Depois, mostre todas na tela, uma por linha, formando uma pequena ficha de apresentação.",
+        },
+        summary:
+          "Nomes de variáveis não podem começar com número nem ter espaço, e diferenciam maiúsculas de minúsculas. Um bom nome é válido e também deixa claro o que está guardado ali.",
+        nextLessonSlug: "o-que-e-input",
+      },
+    ],
+  },
+  {
+    slug: "entrada-e-saida",
+    order: 4,
+    title: "Entrada e saída",
+    description:
+      "Ler dados digitados pelo usuário com input() e converter tipos.",
+    lessons: [
+      {
+        id: "o-que-e-input",
+        slug: "o-que-e-input",
+        moduleSlug: "entrada-e-saida",
+        order: 1,
+        title: "Perguntando ao usuário: input()",
+        objective:
+          "Usar input() para receber um texto digitado pelo usuário e guardá-lo em uma variável.",
+        estimatedMinutes: 12,
+        difficulty: 2,
+        concept:
+          "Até agora, todo valor das suas variáveis já vinha pronto no código. Com input(), o programa pode perguntar algo e esperar que a pessoa digite uma resposta — o valor digitado sempre chega como texto (string), e pode ser guardado em uma variável, igual a qualquer outro valor. No Laboratório deste curso, como não existe um terminal de verdade, você escreve a resposta que o input() vai receber no campo \"Entradas (input)\", antes de executar.",
+        example: {
+          code: 'print("Qual é o seu nome?")\nnome = input()\nprint(nome)',
+          explanation:
+            'A primeira linha pergunta algo. A segunda linha, input(), pausa o programa esperando uma resposta — aqui, guardamos essa resposta na variável nome. A terceira linha mostra o que foi digitado.',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-4-1",
+          title: "Sua primeira pergunta",
+          difficulty: 2,
+          concept: "input",
+          conceptId: "input",
+          instruction:
+            'Escreva um programa que mostre a pergunta "Qual é a sua cor favorita?", leia a resposta com input() e guarde numa variável chamada cor, e depois mostre o valor de cor na tela. No campo "Entradas (input)", escreva: Azul',
+          starterCode: 'print("Qual é a sua cor favorita?")\ncor = input()\nprint(cor)',
+          expectedOutput: ["Qual é a sua cor favorita?", "Azul"],
+          hints: [
+            { order: 1, text: "input() sozinho não pergunta nada na tela — por isso usamos um print() antes, com a pergunta." },
+            { order: 2, text: "O valor digitado vai direto para a variável: cor = input()." },
+            { order: 3, text: 'print("Qual é a sua cor favorita?")\\ncor = input()\\nprint(cor)' },
+          ],
+        },
+        summary:
+          "input() lê um texto digitado pelo usuário e o entrega como string. No Laboratório, a resposta é escrita antes de executar, no campo \"Entradas (input)\".",
+        nextLessonSlug: "conversao-de-tipos",
+      },
+      {
+        id: "conversao-de-tipos",
+        slug: "conversao-de-tipos",
+        moduleSlug: "entrada-e-saida",
+        order: 2,
+        title: "Convertendo texto em número: int() e float()",
+        objective:
+          "Entender por que input() sempre devolve texto e usar int()/float() para transformar esse texto em número.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "Todo valor que vem de input() é sempre texto (string) — mesmo que a pessoa digite só números. Isso é um problema se você quiser fazer conta com esse valor, porque Python não soma texto com número. Para resolver, convertemos o texto em número com int() (para número inteiro) ou float() (para número com casas decimais). Também existe str(), que faz o caminho inverso: transforma um número em texto.",
+        example: {
+          code: 'idade_texto = input()\nidade = int(idade_texto)\nprint(idade + 1)',
+          explanation:
+            "idade_texto guarda o que foi digitado, como texto. int(idade_texto) converte esse texto para um número inteiro, guardado em idade. Só depois dessa conversão é possível somar 1 a ela.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-4-2",
+          title: "Somando com o que foi digitado",
+          difficulty: 3,
+          concept: "conversao-de-tipos",
+          conceptId: "conversao-de-tipos",
+          instruction:
+            'Leia um número com input(), converta para inteiro com int() e guarde numa variável chamada numero. Depois mostre o resultado de numero + 10 na tela. No campo "Entradas (input)", escreva: 5',
+          starterCode: "numero_texto = input()\nnumero = int(numero_texto)\nprint(numero + 10)",
+          expectedOutput: ["15"],
+          hints: [
+            { order: 1, text: "input() devolve texto, mesmo quando a pessoa digita um número — por isso precisa de int()." },
+            { order: 2, text: "Primeiro converta com int(), guardando o resultado em uma variável, depois some 10 a ela." },
+            { order: 3, text: 'numero_texto = input()\\nnumero = int(numero_texto)\\nprint(numero + 10)' },
+          ],
+        },
+        summary:
+          "input() sempre devolve texto. Para fazer contas com o valor digitado, converta com int() (número inteiro) ou float() (número decimal) antes de usar.",
+        nextLessonSlug: "combinando-varios-input",
+      },
+      {
+        id: "combinando-varios-input",
+        slug: "combinando-varios-input",
+        moduleSlug: "entrada-e-saida",
+        order: 3,
+        title: "Combinando várias perguntas",
+        objective:
+          "Usar mais de um input() no mesmo programa para montar um pequeno cadastro.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "Um programa pode ter quantos input() forem necessários — cada chamada espera uma nova resposta, na ordem em que aparece no código. É assim que se constrói um cadastro: uma pergunta de cada vez, cada resposta guardada em sua própria variável, para depois combinar tudo em uma mensagem final.",
+        example: {
+          code: 'print("Qual é o seu nome?")\nnome = input()\nprint("Qual é a sua idade?")\nidade = int(input())\nprint(nome)\nprint(idade)',
+          explanation:
+            "O programa faz duas perguntas, na ordem: primeiro o nome, depois a idade — já convertida direto com int(input()), sem precisar de uma variável intermediária para o texto.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-4-3",
+          title: "Cadastro simples: nome e idade",
+          difficulty: 4,
+          concept: "combinando-input",
+          conceptId: "combinando-input",
+          instruction:
+            'Peça o nome (print da pergunta + input()) e a idade (print da pergunta + int(input())), nessa ordem, e depois mostre nome e idade, um em cada linha. No campo "Entradas (input)", escreva em duas linhas: Ana e depois 30',
+          starterCode:
+            'print("Qual é o seu nome?")\nnome = input()\nprint("Qual é a sua idade?")\nidade = int(input())\nprint(nome)\nprint(idade)',
+          expectedOutput: ["Qual é o seu nome?", "Qual é a sua idade?", "Ana", "30"],
+          hints: [
+            { order: 1, text: "Cada input() consome uma linha do campo \"Entradas (input)\", na ordem em que aparecem no código." },
+            { order: 2, text: "A idade precisa ser convertida com int() para virar número." },
+            { order: 3, text: 'print("Qual é o seu nome?")\\nnome = input()\\nprint("Qual é a sua idade?")\\nidade = int(input())\\nprint(nome)\\nprint(idade)' },
+          ],
+        },
+        miniProject: {
+          title: "Cadastro simples",
+          description:
+            "Monte um pequeno cadastro que peça nome, idade e cidade (três input(), um por vez), convertendo a idade para número, e depois mostre as três informações juntas, formando um pequeno resumo do cadastro.",
+        },
+        summary:
+          "Um programa pode combinar vários input() em sequência, cada um guardado em sua própria variável, para montar um cadastro completo.",
+        nextLessonSlug: "operadores-aritmeticos",
+      },
+    ],
+  },
+  {
+    slug: "operadores",
+    order: 5,
+    title: "Operadores",
+    description:
+      "Soma, subtração, comparação e operadores lógicos.",
+    lessons: [
+      {
+        id: "operadores-aritmeticos",
+        slug: "operadores-aritmeticos",
+        moduleSlug: "operadores",
+        order: 1,
+        title: "Operadores aritméticos",
+        objective:
+          "Usar +, -, *, /, // e % para fazer contas em Python.",
+        estimatedMinutes: 15,
+        difficulty: 2,
+        concept:
+          "Python tem os operadores matemáticos de sempre: + (soma), - (subtração), * (multiplicação) e / (divisão, que sempre devolve um número decimal). Também tem dois operadores próprios: // (divisão inteira, que descarta a parte decimal) e % (módulo, o resto de uma divisão) — por exemplo, 7 % 2 é 1, porque 7 dividido por 2 dá resto 1.",
+        example: {
+          code: "a = 7\nb = 2\n\nprint(a + b)\nprint(a - b)\nprint(a * b)\nprint(a / b)\nprint(a // b)\nprint(a % b)",
+          explanation:
+            "a / b devolve 3.5 (divisão normal), a // b devolve 3 (só a parte inteira), e a % b devolve 1 (o resto da divisão).",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-5-1",
+          title: "As seis operações",
+          difficulty: 2,
+          concept: "operadores-aritmeticos",
+          conceptId: "operadores-aritmeticos",
+          instruction:
+            "Crie duas variáveis, a = 10 e b = 3, e mostre nessa ordem: a soma, a subtração, a multiplicação, a divisão, a divisão inteira e o módulo entre elas.",
+          starterCode: "a = 10\nb = 3\n\nprint(a + b)\nprint(a - b)\nprint(a * b)\nprint(a / b)\nprint(a // b)\nprint(a % b)",
+          expectedOutput: ["13", "7", "30", "3.3333333333333335", "3", "1"],
+          hints: [
+            { order: 1, text: "São seis print(), um para cada operador: + - * / // %." },
+            { order: 2, text: "A ordem pedida é: soma, subtração, multiplicação, divisão, divisão inteira, módulo." },
+            { order: 3, text: "a = 10\\nb = 3\\nprint(a + b)\\nprint(a - b)\\nprint(a * b)\\nprint(a / b)\\nprint(a // b)\\nprint(a % b)" },
+          ],
+        },
+        summary:
+          "+ - * / fazem as quatro operações básicas (/ sempre devolve decimal). // devolve só a parte inteira da divisão, e % devolve o resto.",
+        nextLessonSlug: "operadores-de-comparacao",
+      },
+      {
+        id: "operadores-de-comparacao",
+        slug: "operadores-de-comparacao",
+        moduleSlug: "operadores",
+        order: 2,
+        title: "Operadores de comparação",
+        objective:
+          "Comparar valores com ==, !=, >, <, >= e <=, obtendo um resultado booleano.",
+        estimatedMinutes: 12,
+        difficulty: 2,
+        concept:
+          "Operadores de comparação comparam dois valores e o resultado é sempre um booleano: True ou False. == verifica se são iguais (repare: são dois sinais de igual — um só, =, é usado para criar variáveis, não para comparar). != verifica se são diferentes. >, <, >= e <= comparam qual é maior, menor, maior-ou-igual e menor-ou-igual.",
+        example: {
+          code: "idade = 20\n\nprint(idade == 18)\nprint(idade != 18)\nprint(idade >= 18)",
+          explanation:
+            "idade == 18 é False (20 não é igual a 18). idade != 18 é True (são diferentes). idade >= 18 é True (20 é maior ou igual a 18).",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-5-2",
+          title: "Comparando dois números",
+          difficulty: 3,
+          concept: "operadores-de-comparacao",
+          conceptId: "operadores-de-comparacao",
+          instruction:
+            "Crie x = 15 e y = 20, e mostre nessa ordem: se x é igual a y, se x é diferente de y, e se x é menor que y.",
+          starterCode: "x = 15\ny = 20\n\nprint(x == y)\nprint(x != y)\nprint(x < y)",
+          expectedOutput: ["False", "True", "True"],
+          hints: [
+            { order: 1, text: "Igualdade usa dois sinais de igual: ==." },
+            { order: 2, text: "Diferença usa !=, e \"menor que\" usa <." },
+            { order: 3, text: "x = 15\\ny = 20\\nprint(x == y)\\nprint(x != y)\\nprint(x < y)" },
+          ],
+        },
+        summary:
+          "== compara igualdade (não confunda com =, que atribui um valor). !=, >, <, >= e <= completam as comparações, sempre devolvendo True ou False.",
+        nextLessonSlug: "operadores-logicos",
+      },
+      {
+        id: "operadores-logicos",
+        slug: "operadores-logicos",
+        moduleSlug: "operadores",
+        order: 3,
+        title: "Operadores lógicos: and, or, not",
+        objective:
+          "Combinar mais de uma condição usando and, or e not.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "Operadores lógicos combinam valores booleanos. and é True só quando as duas condições são True. or é True quando pelo menos uma das duas é True. not inverte o valor: not True vira False, e vice-versa.",
+        example: {
+          code: "idade = 25\ntem_carteira = True\n\nprint(idade >= 18 and tem_carteira)\nprint(idade >= 18 or tem_carteira)\nprint(not tem_carteira)",
+          explanation:
+            "idade >= 18 and tem_carteira é True porque as duas partes são True. not tem_carteira inverte True para False.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-5-3",
+          title: "Calculadora com operadores lógicos",
+          difficulty: 4,
+          concept: "operadores-logicos",
+          conceptId: "operadores-logicos",
+          instruction:
+            "Crie nota1 = 8 e nota2 = 4. Mostre, nessa ordem: se as duas notas são maiores ou iguais a 5 (and), e se pelo menos uma delas é maior ou igual a 5 (or).",
+          starterCode: "nota1 = 8\nnota2 = 4\n\nprint(nota1 >= 5 and nota2 >= 5)\nprint(nota1 >= 5 or nota2 >= 5)",
+          expectedOutput: ["False", "True"],
+          hints: [
+            { order: 1, text: "and exige que as duas condições sejam True para o resultado ser True." },
+            { order: 2, text: "or só precisa que uma das duas seja True." },
+            { order: 3, text: "nota1 = 8\\nnota2 = 4\\nprint(nota1 >= 5 and nota2 >= 5)\\nprint(nota1 >= 5 or nota2 >= 5)" },
+          ],
+        },
+        miniProject: {
+          title: "Calculadora",
+          description:
+            "Peça dois números com input() (convertidos com float()) e uma operação (soma, subtração, multiplicação ou divisão, digitada como texto). Use os operadores aritméticos para calcular e mostrar o resultado.",
+        },
+        summary:
+          "and exige que todas as condições sejam True. or basta uma ser True. not inverte um valor booleano.",
+        nextLessonSlug: "if-else",
+      },
+    ],
+  },
+  {
+    slug: "condicoes",
+    order: 6,
+    title: "Condições",
+    description:
+      "Tomar decisões no código com if, elif e else.",
+    lessons: [
+      {
+        id: "if-else",
+        slug: "if-else",
+        moduleSlug: "condicoes",
+        order: 1,
+        title: "Tomando decisões: if e else",
+        objective:
+          "Usar if para executar um bloco de código só quando uma condição é verdadeira, e else para o caso contrário.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "if executa um bloco de código somente se a condição depois dele for True. O bloco é indicado por indentação (espaços no início da linha) — tudo indentado logo abaixo do if faz parte dele. else define o que acontece quando a condição é False.",
+        example: {
+          code: 'idade = 16\n\nif idade >= 18:\n    print("Pode dirigir")\nelse:\n    print("Ainda não pode dirigir")',
+          explanation:
+            "Como idade (16) não é maior ou igual a 18, a condição do if é False, então o Python executa o bloco do else.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-6-1",
+          title: "Par ou ímpar",
+          difficulty: 3,
+          concept: "if-else",
+          conceptId: "if-else",
+          instruction:
+            'Crie numero = 8. Use if/else com o operador % para mostrar "Par" se o número for par (resto da divisão por 2 igual a 0), ou "Ímpar" caso contrário.',
+          starterCode: 'numero = 8\n\nif numero % 2 == 0:\n    print("Par")\nelse:\n    print("Ímpar")',
+          expectedOutput: ["Par"],
+          hints: [
+            { order: 1, text: "Um número é par quando o resto da divisão por 2 é 0 — use o operador %." },
+            { order: 2, text: "A condição do if precisa comparar numero % 2 com 0, usando ==." },
+            { order: 3, text: 'numero = 8\\n\\nif numero % 2 == 0:\\n    print("Par")\\nelse:\\n    print("Ímpar")' },
+          ],
+        },
+        summary:
+          "if executa um bloco quando a condição é True; else cobre o caso False. O bloco de cada um é definido pela indentação.",
+        nextLessonSlug: "elif",
+      },
+      {
+        id: "elif",
+        slug: "elif",
+        moduleSlug: "condicoes",
+        order: 2,
+        title: "Mais de duas opções: elif",
+        objective:
+          "Usar elif para verificar várias condições em sequência, além do if e do else.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "Quando existem mais de duas possibilidades, elif (abreviação de \"else if\") entra entre o if e o else. O Python testa as condições na ordem: se a do if for False, tenta o elif; se todas forem False, executa o else. Só o primeiro bloco cuja condição for True é executado.",
+        example: {
+          code: 'nota = 7\n\nif nota >= 9:\n    print("Excelente")\nelif nota >= 7:\n    print("Bom")\nelse:\n    print("Precisa melhorar")',
+          explanation:
+            "nota (7) não é maior ou igual a 9, então o Python testa o elif: 7 >= 7 é True, então mostra \"Bom\" e para por aí, sem chegar a testar o else.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-6-2",
+          title: "Classificando uma nota",
+          difficulty: 4,
+          concept: "elif",
+          conceptId: "elif",
+          instruction:
+            'Crie nota = 5. Use if/elif/else para mostrar "Aprovado" se nota >= 7, "Recuperação" se nota >= 5, ou "Reprovado" caso contrário.',
+          starterCode:
+            'nota = 5\n\nif nota >= 7:\n    print("Aprovado")\nelif nota >= 5:\n    print("Recuperação")\nelse:\n    print("Reprovado")',
+          expectedOutput: ["Recuperação"],
+          hints: [
+            { order: 1, text: "São três resultados possíveis, então você precisa de if, elif e else." },
+            { order: 2, text: "A ordem importa: teste primeiro >= 7, depois >= 5 — assim uma nota 8 não cai no elif por engano." },
+            { order: 3, text: 'nota = 5\\n\\nif nota >= 7:\\n    print("Aprovado")\\nelif nota >= 5:\\n    print("Recuperação")\\nelse:\\n    print("Reprovado")' },
+          ],
+        },
+        summary:
+          "elif permite testar várias condições em sequência entre o if e o else. Apenas o primeiro bloco True é executado.",
+        nextLessonSlug: "condicoes-compostas",
+      },
+      {
+        id: "condicoes-compostas",
+        slug: "condicoes-compostas",
+        moduleSlug: "condicoes",
+        order: 3,
+        title: "Condições compostas",
+        objective:
+          "Combinar and, or e not dentro de um if para verificar mais de uma regra ao mesmo tempo.",
+        estimatedMinutes: 15,
+        difficulty: 4,
+        concept:
+          "As condições de um if podem combinar and, or e not, exatamente como você já viu no módulo de operadores. Isso permite verificar várias regras de uma vez só — por exemplo, exigir que duas condições sejam verdadeiras ao mesmo tempo para liberar algo.",
+        example: {
+          code: 'idade = 20\ntem_documento = True\n\nif idade >= 18 and tem_documento:\n    print("Entrada liberada")\nelse:\n    print("Entrada negada")',
+          explanation:
+            "As duas condições — idade >= 18 e tem_documento — precisam ser True ao mesmo tempo (and) para o bloco do if ser executado.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-6-3",
+          title: "Verificador de idade",
+          difficulty: 4,
+          concept: "condicoes-compostas",
+          conceptId: "condicoes-compostas",
+          instruction:
+            'Crie idade = 16. Use if/else com and para mostrar "Pode entrar" se a idade for maior ou igual a 12 e menor que 18, ou "Não se aplica" caso contrário.',
+          starterCode:
+            'idade = 16\n\nif idade >= 12 and idade < 18:\n    print("Pode entrar")\nelse:\n    print("Não se aplica")',
+          expectedOutput: ["Pode entrar"],
+          hints: [
+            { order: 1, text: "Você precisa de duas comparações combinadas com and: uma para o limite de baixo, outra para o de cima." },
+            { order: 2, text: "idade >= 12 and idade < 18 é True só quando as duas partes forem True." },
+            { order: 3, text: 'idade = 16\\n\\nif idade >= 12 and idade < 18:\\n    print("Pode entrar")\\nelse:\\n    print("Não se aplica")' },
+          ],
+        },
+        miniProject: {
+          title: "Verificador de idade",
+          description:
+            "Peça a idade da pessoa com input() (convertida com int()) e use if/elif/else para classificar: \"Criança\" (menor que 12), \"Adolescente\" (de 12 a 17) ou \"Adulto\" (18 ou mais), mostrando o resultado na tela.",
+        },
+        summary:
+          "and, or e not podem ser combinados dentro da condição de um if para verificar várias regras ao mesmo tempo.",
         nextLessonSlug: null,
       },
     ],
   },
-  modulePlaceholder(3, "variaveis", "Variáveis", "Guardar nomes, idades e outras informações em variáveis."),
-  modulePlaceholder(4, "entrada-e-saida", "Entrada e saída", "Ler dados digitados pelo usuário com input() e converter tipos."),
-  modulePlaceholder(5, "operadores", "Operadores", "Soma, subtração, comparação e operadores lógicos."),
-  modulePlaceholder(6, "condicoes", "Condições", "Tomar decisões no código com if, elif e else."),
   modulePlaceholder(7, "repeticoes", "Repetições", "Repetir ações com for e while."),
   modulePlaceholder(8, "listas", "Listas", "Guardar várias informações juntas e percorrê-las."),
   modulePlaceholder(9, "dicionarios", "Dicionários", "Organizar informações em pares de chave e valor."),

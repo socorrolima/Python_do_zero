@@ -16,9 +16,15 @@
  * `importScripts()` (ver DEVELOPMENT.md).
  *
  * Protocolo de mensagens (espelha src/lib/python/workerMessages.ts):
- *   → { type: "run", code: string }
+ *   → { type: "run", code: string, stdinLines?: string[] }
  *   ← { type: "result", output: string[] }
  *   ← { type: "error", output: string[], raw: string }
+ *
+ * `stdinLines` (Fase 11 — Módulo 4, input()): respostas pré-digitadas para
+ * os input() do código, uma por linha. Sem SharedArrayBuffer/Atomics (que
+ * exigiria isolamento cross-origin em toda a página, inclusive no Pyodide
+ * vindo do CDN), não dá para pausar a execução no meio para perguntar cada
+ * resposta em tempo real — por isso elas são coletadas ANTES de rodar.
  *
  * O código do aluno roda só dentro deste WebAssembly, sem acesso a
  * servidor, banco de dados ou variáveis de ambiente (item 11 do prompt
@@ -53,6 +59,15 @@ self.onmessage = async (event) => {
     // Tracebacks chegam pela exceção lançada por runPythonAsync, não pelo
     // stderr — por isso o stderr batido aqui é apenas descartado.
     pyodide.setStderr({ batched: () => {} });
+
+    // Cada chamada devolve uma linha da fila (com \n, como um terminal
+    // real entregaria) até acabar; depois disso, null sinaliza EOF — um
+    // input() chamado além das respostas fornecidas levanta EOFError, que
+    // errorMessages.ts traduz para o aluno.
+    const stdinQueue = Array.isArray(event.data.stdinLines) ? [...event.data.stdinLines] : [];
+    pyodide.setStdin({
+      stdin: () => (stdinQueue.length > 0 ? `${stdinQueue.shift()}\n` : null),
+    });
 
     await pyodide.runPythonAsync(event.data.code);
     self.postMessage({ type: "result", output });

@@ -42,7 +42,12 @@ export function isPyodideLoaded(): boolean {
   return pyodideReady;
 }
 
-export function runPython(code: string): Promise<RunResult> {
+/**
+ * `stdinLines`: respostas para os input() do código, uma por linha, na
+ * ordem em que aparecem — ver o comentário em `workerMessages.ts` sobre
+ * por que não dá para pedir cada uma em tempo real durante a execução.
+ */
+export function runPython(code: string, stdinLines: string[] = []): Promise<RunResult> {
   return new Promise((resolve) => {
     if (!worker) worker = createWorker();
     const activeWorker = worker;
@@ -80,7 +85,7 @@ export function runPython(code: string): Promise<RunResult> {
     }
 
     activeWorker.addEventListener("message", handleMessage);
-    const request: WorkerRequest = { type: "run", code };
+    const request: WorkerRequest = { type: "run", code, stdinLines };
     activeWorker.postMessage(request);
   });
 }

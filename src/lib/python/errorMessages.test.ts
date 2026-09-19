@@ -55,6 +55,7 @@ describe("translatePythonError", () => {
       "KeyError: 'idade'",
       "AttributeError: 'int' object has no attribute 'append'",
       "ModuleNotFoundError: No module named 'requests'",
+      "EOFError: EOF when reading a line",
     ];
 
     for (const raw of covered) {

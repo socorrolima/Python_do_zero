@@ -65,6 +65,11 @@ const TEMPLATES: Record<string, ErrorTemplate> = {
     message: (detail) => `O código tentou usar algo que não existe para esse tipo de valor. Detalhe original: ${detail}`,
     hint: "Confira o nome do método ou atributo — pode haver um erro de digitação, ou o valor pode ser de outro tipo do que você pensa.",
   },
+  EOFError: {
+    message: () =>
+      "O código pediu uma informação com input(), mas não havia mais nenhuma resposta preparada para dar a ele.",
+    hint: 'Confira quantas vezes seu código chama input() e preencha uma resposta por linha no campo "Entradas (input)", na mesma ordem em que elas são pedidas no código.',
+  },
   ModuleNotFoundError: {
     message: (detail) => `O código tentou usar um módulo que não está disponível aqui. Detalhe original: ${detail}`,
     hint: "Este laboratório roda no navegador e só tem os módulos padrão do Python disponíveis.",
