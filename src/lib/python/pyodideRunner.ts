@@ -25,9 +25,13 @@ export interface RunResult {
   error?: TranslatedError;
 }
 
-// A primeira execução baixa e inicializa o Pyodide (alguns megabytes,
-// cacheados pelo navegador depois); as próximas só executam o código.
-const LOAD_TIMEOUT_MS = 60_000;
+// A primeira execução baixa e inicializa o Pyodide (dezenas de megabytes,
+// cacheados pelo navegador depois); as próximas só executam o código. Em
+// conexões mais lentas isso pode passar de 1 minuto sem que nada esteja
+// realmente travado — por isso a margem é generosa (evita mostrar "demorou
+// demais" para quem só está numa rede lenta e o download ainda está a
+// caminho).
+const LOAD_TIMEOUT_MS = 120_000;
 const RUN_TIMEOUT_MS = 8_000;
 
 let worker: Worker | null = null;
@@ -64,8 +68,10 @@ export function runPython(code: string, stdinLines: string[] = []): Promise<RunR
           pythonError: "Tempo esgotado",
           pedagogicalMessage: pyodideReady
             ? "O código demorou demais para terminar — pode ter entrado em um loop infinito (por exemplo, um `while` cuja condição nunca vira falsa)."
-            : "O interpretador Python demorou demais para carregar. Verifique sua conexão com a internet e tente executar de novo.",
-          hint: "Revise as condições dos seus loops: alguma variável usada nela precisa mudar dentro do loop.",
+            : "O interpretador Python demorou demais para carregar (mais de 2 minutos). Isso costuma ser conexão lenta ou instável — verifique sua internet e tente executar de novo.",
+          hint: pyodideReady
+            ? "Revise as condições dos seus loops: alguma variável usada nela precisa mudar dentro do loop."
+            : "Na primeira vez, o navegador baixa o interpretador Python inteiro (alguns megabytes) — em conexões lentas isso pode levar mais de um minuto. Tente de novo; se persistir, teste com outra rede.",
           line: null,
         },
       });
