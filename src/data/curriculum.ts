@@ -443,7 +443,7 @@ export const MODULES: Module[] = [
           conceptId: "input",
           instruction:
             'Escreva um programa que mostre a pergunta "Qual é a sua cor favorita?", leia a resposta com input() e guarde numa variável chamada cor, e depois mostre o valor de cor na tela. No campo "Entradas (input)", escreva: Azul',
-          starterCode: 'print("Qual é a sua cor favorita?")\ncor = input()\nprint(cor)',
+          starterCode: "",
           expectedOutput: ["Qual é a sua cor favorita?", "Azul"],
           hints: [
             { order: 1, text: "input() sozinho não pergunta nada na tela — por isso usamos um print() antes, com a pergunta." },
@@ -481,7 +481,7 @@ export const MODULES: Module[] = [
           conceptId: "conversao-de-tipos",
           instruction:
             'Leia um número com input(), converta para inteiro com int() e guarde numa variável chamada numero. Depois mostre o resultado de numero + 10 na tela. No campo "Entradas (input)", escreva: 5',
-          starterCode: "numero_texto = input()\nnumero = int(numero_texto)\nprint(numero + 10)",
+          starterCode: "",
           expectedOutput: ["15"],
           hints: [
             { order: 1, text: "input() devolve texto, mesmo quando a pessoa digita um número — por isso precisa de int()." },
@@ -519,8 +519,7 @@ export const MODULES: Module[] = [
           conceptId: "combinando-input",
           instruction:
             'Peça o nome (print da pergunta + input()) e a idade (print da pergunta + int(input())), nessa ordem, e depois mostre nome e idade, um em cada linha. No campo "Entradas (input)", escreva em duas linhas: Ana e depois 30',
-          starterCode:
-            'print("Qual é o seu nome?")\nnome = input()\nprint("Qual é a sua idade?")\nidade = int(input())\nprint(nome)\nprint(idade)',
+          starterCode: "",
           expectedOutput: ["Qual é o seu nome?", "Qual é a sua idade?", "Ana", "30"],
           hints: [
             { order: 1, text: "Cada input() consome uma linha do campo \"Entradas (input)\", na ordem em que aparecem no código." },
@@ -572,7 +571,7 @@ export const MODULES: Module[] = [
           conceptId: "operadores-aritmeticos",
           instruction:
             "Crie duas variáveis, a = 10 e b = 3, e mostre nessa ordem: a soma, a subtração, a multiplicação, a divisão, a divisão inteira e o módulo entre elas.",
-          starterCode: "a = 10\nb = 3\n\nprint(a + b)\nprint(a - b)\nprint(a * b)\nprint(a / b)\nprint(a // b)\nprint(a % b)",
+          starterCode: "",
           expectedOutput: ["13", "7", "30", "3.3333333333333335", "3", "1"],
           hints: [
             { order: 1, text: "São seis print(), um para cada operador: + - * / // %." },
@@ -610,7 +609,7 @@ export const MODULES: Module[] = [
           conceptId: "operadores-de-comparacao",
           instruction:
             "Crie x = 15 e y = 20, e mostre nessa ordem: se x é igual a y, se x é diferente de y, e se x é menor que y.",
-          starterCode: "x = 15\ny = 20\n\nprint(x == y)\nprint(x != y)\nprint(x < y)",
+          starterCode: "",
           expectedOutput: ["False", "True", "True"],
           hints: [
             { order: 1, text: "Igualdade usa dois sinais de igual: ==." },
@@ -648,7 +647,7 @@ export const MODULES: Module[] = [
           conceptId: "operadores-logicos",
           instruction:
             "Crie nota1 = 8 e nota2 = 4. Mostre, nessa ordem: se as duas notas são maiores ou iguais a 5 (and), e se pelo menos uma delas é maior ou igual a 5 (or).",
-          starterCode: "nota1 = 8\nnota2 = 4\n\nprint(nota1 >= 5 and nota2 >= 5)\nprint(nota1 >= 5 or nota2 >= 5)",
+          starterCode: "",
           expectedOutput: ["False", "True"],
           hints: [
             { order: 1, text: "and exige que as duas condições sejam True para o resultado ser True." },
@@ -700,7 +699,7 @@ export const MODULES: Module[] = [
           conceptId: "if-else",
           instruction:
             'Crie numero = 8. Use if/else com o operador % para mostrar "Par" se o número for par (resto da divisão por 2 igual a 0), ou "Ímpar" caso contrário.',
-          starterCode: 'numero = 8\n\nif numero % 2 == 0:\n    print("Par")\nelse:\n    print("Ímpar")',
+          starterCode: "",
           expectedOutput: ["Par"],
           hints: [
             { order: 1, text: "Um número é par quando o resto da divisão por 2 é 0 — use o operador %." },
@@ -738,8 +737,7 @@ export const MODULES: Module[] = [
           conceptId: "elif",
           instruction:
             'Crie nota = 5. Use if/elif/else para mostrar "Aprovado" se nota >= 7, "Recuperação" se nota >= 5, ou "Reprovado" caso contrário.',
-          starterCode:
-            'nota = 5\n\nif nota >= 7:\n    print("Aprovado")\nelif nota >= 5:\n    print("Recuperação")\nelse:\n    print("Reprovado")',
+          starterCode: "",
           expectedOutput: ["Recuperação"],
           hints: [
             { order: 1, text: "São três resultados possíveis, então você precisa de if, elif e else." },
@@ -777,8 +775,7 @@ export const MODULES: Module[] = [
           conceptId: "condicoes-compostas",
           instruction:
             'Crie idade = 16. Use if/else com and para mostrar "Pode entrar" se a idade for maior ou igual a 12 e menor que 18, ou "Não se aplica" caso contrário.',
-          starterCode:
-            'idade = 16\n\nif idade >= 12 and idade < 18:\n    print("Pode entrar")\nelse:\n    print("Não se aplica")',
+          starterCode: "",
           expectedOutput: ["Pode entrar"],
           hints: [
             { order: 1, text: "Você precisa de duas comparações combinadas com and: uma para o limite de baixo, outra para o de cima." },
@@ -793,13 +790,391 @@ export const MODULES: Module[] = [
         },
         summary:
           "and, or e not podem ser combinados dentro da condição de um if para verificar várias regras ao mesmo tempo.",
+        nextLessonSlug: "for-e-range",
+      },
+    ],
+  },
+  {
+    slug: "repeticoes",
+    order: 7,
+    title: "Repetições",
+    description: "Repetir ações com for e while.",
+    lessons: [
+      {
+        id: "for-e-range",
+        slug: "for-e-range",
+        moduleSlug: "repeticoes",
+        order: 1,
+        title: "Repetindo com for e range()",
+        objective:
+          "Usar for e range() para repetir um bloco de código um número definido de vezes.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "for repete um bloco de código uma vez para cada valor de uma sequência. range(inicio, fim) gera uma sequência de números inteiros de inicio até fim, sem incluir o fim — por exemplo, range(1, 4) gera 1, 2 e 3. A cada repetição, o valor atual fica guardado na variável do for.",
+        example: {
+          code: "for numero in range(1, 4):\n    print(numero)",
+          explanation:
+            "range(1, 4) gera 1, 2 e 3 (o 4 não entra). O for repete o bloco indentado uma vez para cada um desses valores, guardando-o em numero a cada volta.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-7-1",
+          title: "Contando de 1 a 5",
+          difficulty: 3,
+          concept: "for-range",
+          conceptId: "for-range",
+          instruction:
+            "Use for com range() para mostrar os números de 1 a 5, um por linha, em ordem crescente.",
+          starterCode: "",
+          expectedOutput: ["1", "2", "3", "4", "5"],
+          hints: [
+            { order: 1, text: "range(inicio, fim) não inclui o fim — para chegar até 5, o fim precisa ser 6." },
+            { order: 2, text: "for numero in range(1, 6): — e dentro do bloco, print(numero)." },
+            { order: 3, text: "for numero in range(1, 6):\\n    print(numero)" },
+          ],
+        },
+        summary:
+          "for numero in range(inicio, fim) repete um bloco uma vez para cada número de inicio até fim - 1, guardando o valor atual na variável a cada volta.",
+        nextLessonSlug: "while",
+      },
+      {
+        id: "while",
+        slug: "while",
+        moduleSlug: "repeticoes",
+        order: 2,
+        title: "Repetindo enquanto uma condição for verdadeira: while",
+        objective:
+          "Usar while para repetir um bloco enquanto uma condição continuar True, e evitar loops infinitos.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "while repete um bloco enquanto a condição dele for True — diferente do for, não é preciso saber de antemão quantas vezes vai repetir. Isso exige cuidado: alguma coisa usada na condição precisa mudar dentro do bloco, ou a condição nunca vira False e o programa entra em loop infinito (trava para sempre).",
+        example: {
+          code: "contador = 1\nwhile contador <= 3:\n    print(contador)\n    contador = contador + 1",
+          explanation:
+            "contador começa em 1. Enquanto contador <= 3 for True, o bloco roda: mostra o valor e soma 1 a contador. Quando contador chega a 4, a condição vira False e o loop para.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-7-2",
+          title: "Contagem regressiva",
+          difficulty: 3,
+          concept: "while",
+          conceptId: "while",
+          instruction:
+            "Crie contador = 5 e use while para mostrar a contagem regressiva de 5 até 1, um número por linha, diminuindo contador em 1 a cada volta.",
+          starterCode: "",
+          expectedOutput: ["5", "4", "3", "2", "1"],
+          hints: [
+            { order: 1, text: "A condição do while deve continuar True enquanto contador for maior ou igual a 1." },
+            { order: 2, text: "Dentro do bloco, depois de mostrar o valor, diminua contador com contador = contador - 1." },
+            { order: 3, text: "contador = 5\\nwhile contador >= 1:\\n    print(contador)\\n    contador = contador - 1" },
+          ],
+        },
+        summary:
+          "while repete um bloco enquanto a condição for True. É essencial que algo dentro do bloco mude o valor usado na condição, para o loop eventualmente parar.",
+        nextLessonSlug: "contadores-e-acumuladores",
+      },
+      {
+        id: "contadores-e-acumuladores",
+        slug: "contadores-e-acumuladores",
+        moduleSlug: "repeticoes",
+        order: 3,
+        title: "Contadores e acumuladores",
+        objective:
+          "Usar uma variável para somar valores ao longo de um loop (acumulador).",
+        estimatedMinutes: 15,
+        difficulty: 4,
+        concept:
+          "Um acumulador é uma variável criada antes do loop (geralmente com valor 0) que vai recebendo novos valores somados a ela dentro do loop, a cada volta — no final, guarda o total. O padrão é sempre o mesmo: variavel = variavel + algo, repetido a cada iteração.",
+        example: {
+          code: "soma = 0\nfor numero in range(1, 5):\n    soma = soma + numero\nprint(soma)",
+          explanation:
+            "soma começa em 0. A cada volta do for, soma recebe soma + numero. No final das voltas (1, 2, 3 e 4), soma guarda 1 + 2 + 3 + 4 = 10.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-7-3",
+          title: "Somando de 1 a 10",
+          difficulty: 4,
+          concept: "acumulador",
+          conceptId: "acumulador",
+          instruction:
+            "Crie soma = 0 e use for com range() para somar todos os números de 1 a 10 nessa variável. Depois, mostre apenas o resultado final.",
+          starterCode: "",
+          expectedOutput: ["55"],
+          hints: [
+            { order: 1, text: "O print() deve ficar fora do for, depois dele — senão mostra o total parcial a cada volta." },
+            { order: 2, text: "Dentro do for, acumule com soma = soma + numero." },
+            { order: 3, text: "soma = 0\\nfor numero in range(1, 11):\\n    soma = soma + numero\\nprint(soma)" },
+          ],
+        },
+        miniProject: {
+          title: "Tabuada",
+          description:
+            "Peça um número com input() (convertido com int()) e use for com range(1, 11) para mostrar a tabuada desse número, uma linha por multiplicação (por exemplo: \"3 x 1 = 3\", \"3 x 2 = 6\", e assim por diante até 3 x 10).",
+        },
+        summary:
+          "Um acumulador é uma variável iniciada antes do loop que vai somando valores a cada volta, guardando o total no final.",
+        nextLessonSlug: "criando-listas",
+      },
+    ],
+  },
+  {
+    slug: "listas",
+    order: 8,
+    title: "Listas",
+    description: "Guardar várias informações juntas e percorrê-las.",
+    lessons: [
+      {
+        id: "criando-listas",
+        slug: "criando-listas",
+        moduleSlug: "listas",
+        order: 1,
+        title: "Criando e acessando listas",
+        objective:
+          "Criar uma lista com colchetes e acessar seus itens pelo índice.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "Uma lista guarda vários valores em uma única variável, entre colchetes [ ], separados por vírgula. Cada item tem uma posição chamada índice — e em Python, os índices começam em 0, não em 1: o primeiro item é lista[0], o segundo é lista[1], e assim por diante.",
+        example: {
+          code: 'frutas = ["maçã", "banana", "uva"]\nprint(frutas[0])\nprint(frutas[1])',
+          explanation:
+            'frutas[0] é o primeiro item da lista ("maçã"), e frutas[1] é o segundo ("banana") — repare que o índice sempre começa em 0.',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-8-1",
+          title: "Primeiro e último item",
+          difficulty: 3,
+          concept: "listas",
+          conceptId: "listas",
+          instruction:
+            'Crie a lista cores = ["azul", "verde", "vermelho"] e mostre o primeiro item e o terceiro item, nessa ordem.',
+          starterCode: "",
+          expectedOutput: ["azul", "vermelho"],
+          hints: [
+            { order: 1, text: "O primeiro item de uma lista está no índice 0." },
+            { order: 2, text: "O terceiro item está no índice 2 (0, 1, 2 — terceira posição)." },
+            { order: 3, text: 'cores = ["azul", "verde", "vermelho"]\\nprint(cores[0])\\nprint(cores[2])' },
+          ],
+        },
+        summary:
+          "Uma lista guarda vários valores entre colchetes. Cada item é acessado pelo seu índice, que começa em 0.",
+        nextLessonSlug: "adicionando-e-removendo-itens",
+      },
+      {
+        id: "adicionando-e-removendo-itens",
+        slug: "adicionando-e-removendo-itens",
+        moduleSlug: "listas",
+        order: 2,
+        title: "Adicionando e removendo itens",
+        objective:
+          "Usar append() para adicionar um item ao final da lista e remove() para tirar um item específico.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "Listas podem mudar depois de criadas. lista.append(valor) adiciona um item ao final da lista. lista.remove(valor) tira da lista a primeira ocorrência daquele valor. Ao mostrar uma lista inteira com print(), o Python exibe todos os itens entre colchetes, separados por vírgula, cada texto entre aspas simples.",
+        example: {
+          code: 'compras = ["arroz", "feijão"]\ncompras.append("leite")\nprint(compras)',
+          explanation:
+            'compras.append("leite") adiciona "leite" ao final da lista. print(compras) mostra a lista inteira: [\'arroz\', \'feijão\', \'leite\'].',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-8-2",
+          title: "Atualizando uma lista de tarefas",
+          difficulty: 3,
+          concept: "append-remove",
+          conceptId: "append-remove",
+          instruction:
+            'Crie tarefas = ["estudar", "correr"], adicione "cozinhar" ao final com append(), e mostre a lista completa com print().',
+          starterCode: "",
+          expectedOutput: ["['estudar', 'correr', 'cozinhar']"],
+          hints: [
+            { order: 1, text: "append() sempre adiciona o item no final da lista." },
+            { order: 2, text: "Chame tarefas.append(\"cozinhar\") antes de mostrar a lista." },
+            { order: 3, text: 'tarefas = ["estudar", "correr"]\\ntarefas.append("cozinhar")\\nprint(tarefas)' },
+          ],
+        },
+        summary:
+          "append() adiciona um item ao final da lista, e remove() tira a primeira ocorrência de um valor. print() de uma lista mostra todos os itens entre colchetes.",
+        nextLessonSlug: "percorrendo-listas",
+      },
+      {
+        id: "percorrendo-listas",
+        slug: "percorrendo-listas",
+        moduleSlug: "listas",
+        order: 3,
+        title: "Percorrendo uma lista com for",
+        objective:
+          "Usar for para passar por todos os itens de uma lista, um de cada vez.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "Em vez de acessar cada item de uma lista pelo índice, um por um, dá para usar for para percorrer a lista inteira automaticamente — a cada volta, a variável do for recebe o próximo item da lista, na ordem em que aparecem.",
+        example: {
+          code: 'numeros = [10, 20, 30]\nfor numero in numeros:\n    print(numero)',
+          explanation:
+            "O for passa por cada item de numeros, na ordem: primeiro numero vale 10, depois 20, depois 30 — mostrando um valor por linha.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-8-3",
+          title: "Mostrando todos os itens",
+          difficulty: 3,
+          concept: "percorrer-listas",
+          conceptId: "percorrer-listas",
+          instruction:
+            "Crie a lista numeros = [10, 20, 30] e use for para mostrar cada item dela, um por linha, na ordem em que aparecem na lista.",
+          starterCode: "",
+          expectedOutput: ["10", "20", "30"],
+          hints: [
+            { order: 1, text: "Não precisa de índice nem de range() aqui — o for pode percorrer a lista direto." },
+            { order: 2, text: "for numero in numeros: — e dentro do bloco, print(numero)." },
+            { order: 3, text: "numeros = [10, 20, 30]\\nfor numero in numeros:\\n    print(numero)" },
+          ],
+        },
+        miniProject: {
+          title: "Lista de compras",
+          description:
+            "Crie uma lista de compras vazia e use pelo menos três append() para adicionar itens a ela. Remova um item com remove(). Por fim, use for para mostrar cada item restante da lista, um por linha.",
+        },
+        summary:
+          "for item in lista percorre todos os itens de uma lista, um de cada vez, sem precisar de índice.",
+        nextLessonSlug: "criando-dicionarios",
+      },
+    ],
+  },
+  {
+    slug: "dicionarios",
+    order: 9,
+    title: "Dicionários",
+    description: "Organizar informações em pares de chave e valor.",
+    lessons: [
+      {
+        id: "criando-dicionarios",
+        slug: "criando-dicionarios",
+        moduleSlug: "dicionarios",
+        order: 1,
+        title: "Criando dicionários e consultando valores",
+        objective:
+          "Criar um dicionário com chaves e valores, e consultar um valor por sua chave.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "Um dicionário guarda informações em pares de chave e valor, entre chaves { }, no formato chave: valor. Diferente da lista, que usa índices numéricos, o dicionário usa a própria chave (geralmente um texto) para consultar um valor: dicionario[\"chave\"].",
+        example: {
+          code: 'pessoa = {"nome": "Ana", "idade": 30}\nprint(pessoa["nome"])\nprint(pessoa["idade"])',
+          explanation:
+            'pessoa["nome"] devolve o valor guardado na chave "nome" ("Ana"), e pessoa["idade"] devolve o valor da chave "idade" (30).',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-9-1",
+          title: "Consultando um dicionário",
+          difficulty: 3,
+          concept: "dicionarios",
+          conceptId: "dicionarios",
+          instruction:
+            'Crie pessoa = {"nome": "Ana", "idade": 30} e mostre o valor da chave "nome" e depois o valor da chave "idade".',
+          starterCode: "",
+          expectedOutput: ["Ana", "30"],
+          hints: [
+            { order: 1, text: "Um dicionário usa chaves { }, com pares chave: valor separados por vírgula." },
+            { order: 2, text: "Para consultar um valor, use dicionario[\"chave\"], com o nome exato da chave entre aspas." },
+            { order: 3, text: 'pessoa = {"nome": "Ana", "idade": 30}\\nprint(pessoa["nome"])\\nprint(pessoa["idade"])' },
+          ],
+        },
+        summary:
+          "Um dicionário guarda pares de chave e valor entre chaves { }. Um valor é consultado pela sua chave: dicionario[\"chave\"].",
+        nextLessonSlug: "alterando-dicionarios",
+      },
+      {
+        id: "alterando-dicionarios",
+        slug: "alterando-dicionarios",
+        moduleSlug: "dicionarios",
+        order: 2,
+        title: "Alterando valores em um dicionário",
+        objective:
+          "Alterar o valor de uma chave já existente em um dicionário.",
+        estimatedMinutes: 12,
+        difficulty: 3,
+        concept:
+          "Para alterar o valor de uma chave que já existe, basta atribuir um novo valor a ela, do mesmo jeito que se cria uma variável: dicionario[\"chave\"] = novo_valor. Se a chave já existir, o valor antigo é substituído.",
+        example: {
+          code: 'pessoa = {"nome": "Ana", "idade": 30}\npessoa["idade"] = 31\nprint(pessoa)',
+          explanation:
+            'pessoa["idade"] = 31 substitui o valor antigo (30) da chave "idade" por 31. print(pessoa) mostra o dicionário inteiro já atualizado.',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-9-2",
+          title: "Fazendo aniversário",
+          difficulty: 3,
+          concept: "alterar-dicionario",
+          conceptId: "alterar-dicionario",
+          instruction:
+            'Crie pessoa = {"nome": "Ana", "idade": 30}, altere o valor da chave "idade" para 31, e mostre o dicionário inteiro com print().',
+          starterCode: "",
+          expectedOutput: ["{'nome': 'Ana', 'idade': 31}"],
+          hints: [
+            { order: 1, text: "Não é preciso recriar o dicionário — só atribuir um novo valor à chave que já existe." },
+            { order: 2, text: 'pessoa["idade"] = 31 substitui o valor antigo dessa chave.' },
+            { order: 3, text: 'pessoa = {"nome": "Ana", "idade": 30}\\npessoa["idade"] = 31\\nprint(pessoa)' },
+          ],
+        },
+        summary:
+          "Atribuir um valor a uma chave que já existe (dicionario[\"chave\"] = novo_valor) substitui o valor antigo por ele.",
+        nextLessonSlug: "iterando-dicionarios",
+      },
+      {
+        id: "iterando-dicionarios",
+        slug: "iterando-dicionarios",
+        moduleSlug: "dicionarios",
+        order: 3,
+        title: "Percorrendo um dicionário com for",
+        objective:
+          "Usar for com .items() para percorrer todas as chaves e valores de um dicionário.",
+        estimatedMinutes: 15,
+        difficulty: 4,
+        concept:
+          "dicionario.items() devolve todos os pares de chave e valor do dicionário, um de cada vez — por isso, o for usado com .items() precisa de duas variáveis, uma para a chave e outra para o valor, nessa ordem: for chave, valor in dicionario.items().",
+        example: {
+          code: 'aluno = {"nome": "Carlos", "nota": 8}\nfor chave, valor in aluno.items():\n    print(chave, valor)',
+          explanation:
+            'A cada volta, chave recebe uma chave do dicionário e valor recebe o valor correspondente. print(chave, valor) com vírgula mostra os dois na mesma linha, separados por espaço.',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-9-3",
+          title: "Mostrando um cadastro completo",
+          difficulty: 4,
+          concept: "iterar-dicionario",
+          conceptId: "iterar-dicionario",
+          instruction:
+            'Crie aluno = {"nome": "Carlos", "nota": 8} e use for com .items() para mostrar cada chave e seu valor, um par por linha, na ordem em que aparecem no dicionário.',
+          starterCode: "",
+          expectedOutput: ["nome Carlos", "nota 8"],
+          hints: [
+            { order: 1, text: "Use .items() no dicionário para conseguir chave e valor juntos a cada volta do for." },
+            { order: 2, text: "for chave, valor in aluno.items(): — repare nas duas variáveis, separadas por vírgula." },
+            { order: 3, text: 'aluno = {"nome": "Carlos", "nota": 8}\\nfor chave, valor in aluno.items():\\n    print(chave, valor)' },
+          ],
+        },
+        miniProject: {
+          title: "Cadastro de pessoas",
+          description:
+            "Crie uma lista vazia chamada pessoas. Para cada uma de pelo menos duas pessoas, crie um dicionário com as chaves nome e idade e adicione esse dicionário à lista com append(). Por fim, use for para percorrer a lista e, para cada pessoa, use .items() para mostrar todas as chaves e valores dela.",
+        },
+        summary:
+          "dicionario.items() devolve pares de chave e valor, que o for pode percorrer com duas variáveis: for chave, valor in dicionario.items().",
         nextLessonSlug: null,
       },
     ],
   },
-  modulePlaceholder(7, "repeticoes", "Repetições", "Repetir ações com for e while."),
-  modulePlaceholder(8, "listas", "Listas", "Guardar várias informações juntas e percorrê-las."),
-  modulePlaceholder(9, "dicionarios", "Dicionários", "Organizar informações em pares de chave e valor."),
   modulePlaceholder(10, "funcoes", "Funções", "Criar blocos de código reutilizáveis."),
   modulePlaceholder(11, "arquivos", "Arquivos", "Ler e salvar informações em arquivos."),
   modulePlaceholder(12, "projeto-final", "Projeto final", "Combinar tudo o que você aprendeu em um projeto completo."),
