@@ -150,6 +150,14 @@ export function CodeEditor({ starterCode, exampleCode, onResult }: CodeEditorPro
             </Button>
           )}
         </div>
+        {status === "loading" && (
+          <p className="mt-2 text-xs text-slate-500">
+            Só na primeira vez: o navegador está baixando o interpretador Python
+            (alguns megabytes). Em conexões mais lentas isso pode levar mais de um
+            minuto — nas próximas execuções fica rápido, porque fica salvo no
+            navegador.
+          </p>
+        )}
       </div>
       <OutputConsole result={result} status={status} />
     </div>
