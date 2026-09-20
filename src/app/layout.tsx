@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Footer } from "@/components/ui/Footer";
 
 // Fonte do sistema (sem next/font/google): evita chamada de rede em build
 // e mantém carregamento imediato, sem custo de layout shift.
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           hydration mismatch — não é bug do nosso código. */}
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         {children}
+        <Footer />
       </body>
     </html>
   );
