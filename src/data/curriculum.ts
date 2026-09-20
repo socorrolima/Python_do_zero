@@ -1171,13 +1171,315 @@ export const MODULES: Module[] = [
         },
         summary:
           "dicionario.items() devolve pares de chave e valor, que o for pode percorrer com duas variáveis: for chave, valor in dicionario.items().",
+        nextLessonSlug: "criando-funcoes",
+      },
+    ],
+  },
+  {
+    slug: "funcoes",
+    order: 10,
+    title: "Funções",
+    description: "Criar blocos de código reutilizáveis, com parâmetros e retorno.",
+    lessons: [
+      {
+        id: "criando-funcoes",
+        slug: "criando-funcoes",
+        moduleSlug: "funcoes",
+        order: 1,
+        title: "Criando e chamando uma função",
+        objective:
+          "Criar uma função com def e chamá-la para executar seu bloco de código.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "Uma função é um bloco de código nomeado que pode ser executado (chamado) sempre que for preciso, sem reescrever o mesmo código de novo. Para criar uma função, usamos def nome_da_funcao(): seguido do bloco indentado. Criar a função não executa o bloco — isso só acontece quando a função é chamada, escrevendo o nome dela seguido de parênteses: nome_da_funcao().",
+        example: {
+          code: 'def saudacao():\n    print("Bem-vindo ao Python do Zero!")\n\nsaudacao()',
+          explanation:
+            "def saudacao(): cria a função, mas não mostra nada ainda — só quando saudacao() é chamada na última linha é que o bloco indentado roda e o print() aparece.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-10-1",
+          title: "A função que nunca é chamada",
+          difficulty: 3,
+          concept: "criar-funcoes",
+          conceptId: "criar-funcoes",
+          instruction:
+            "O código abaixo cria uma função chamada linha_separadora, mas ela nunca é chamada — por isso nada aparece na tela. Chame a função duas vezes: uma antes e outra depois da linha que já existe no código, para mostrar a linha separadora, depois \"Relatório de vendas\", depois a linha separadora de novo.",
+          starterCode: 'def linha_separadora():\n    print("------------------")\n\nprint("Relatório de vendas")',
+          expectedOutput: ["------------------", "Relatório de vendas", "------------------"],
+          hints: [
+            { order: 1, text: "Criar a função com def não executa o bloco dela — só chamá-la (linha_separadora()) faz isso." },
+            { order: 2, text: "Chame linha_separadora() antes do print() que já existe, e de novo depois dele." },
+            { order: 3, text: 'def linha_separadora():\\n    print("------------------")\\n\\nlinha_separadora()\\nprint("Relatório de vendas")\\nlinha_separadora()' },
+          ],
+        },
+        summary:
+          "Uma função (def nome(): bloco) só executa quando é chamada (nome()) — e pode ser chamada quantas vezes for preciso, evitando repetir o mesmo código.",
+        nextLessonSlug: "parametros-e-argumentos",
+      },
+      {
+        id: "parametros-e-argumentos",
+        slug: "parametros-e-argumentos",
+        moduleSlug: "funcoes",
+        order: 2,
+        title: "Parâmetros e argumentos",
+        objective:
+          "Criar funções que recebem parâmetros e usá-los para personalizar o que a função faz.",
+        estimatedMinutes: 15,
+        difficulty: 3,
+        concept:
+          "Uma função pode receber informações de fora através de parâmetros — nomes que ficam entre os parênteses da definição (def saudacao(nome):). Quando a função é chamada, o valor passado entre parênteses (o argumento) é guardado nesse parâmetro, como se fosse uma variável só daquela execução da função.",
+        example: {
+          code: 'def saudacao(nome):\n    print("Olá,", nome)\n\nsaudacao("Maria")\nsaudacao("João")',
+          explanation:
+            'nome é o parâmetro. Na primeira chamada, nome recebe "Maria"; na segunda, recebe "João" — o mesmo bloco roda com valores diferentes a cada chamada, e print("Olá,", nome) mostra os dois separados por espaço.',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-10-2",
+          title: "Uma função com dois parâmetros",
+          difficulty: 3,
+          concept: "parametros",
+          conceptId: "parametros",
+          instruction:
+            'Crie uma função chamada apresentar que recebe dois parâmetros, nessa ordem: nome e cidade. Dentro dela, use print("Moro em", cidade) e depois print("Meu nome é", nome), nessa ordem. Chame apresentar("Beatriz", "Recife").',
+          starterCode: "",
+          expectedOutput: ["Moro em Recife", "Meu nome é Beatriz"],
+          hints: [
+            { order: 1, text: "Uma função com dois parâmetros é criada assim: def apresentar(nome, cidade):." },
+            { order: 2, text: 'Os argumentos na chamada seguem a mesma ordem dos parâmetros na definição: apresentar("Beatriz", "Recife") faz nome = "Beatriz" e cidade = "Recife".' },
+            { order: 3, text: 'def apresentar(nome, cidade):\\n    print("Moro em", cidade)\\n    print("Meu nome é", nome)\\n\\napresentar("Beatriz", "Recife")' },
+          ],
+        },
+        summary:
+          "Uma função pode receber vários parâmetros, separados por vírgula. Os argumentos passados na chamada são atribuídos aos parâmetros na mesma ordem em que foram declarados.",
+        nextLessonSlug: "retorno-de-funcoes",
+      },
+      {
+        id: "retorno-de-funcoes",
+        slug: "retorno-de-funcoes",
+        moduleSlug: "funcoes",
+        order: 3,
+        title: "Retornando valores com return",
+        objective:
+          "Usar return para uma função devolver um valor que pode ser guardado ou usado em outra expressão.",
+        estimatedMinutes: 18,
+        difficulty: 4,
+        concept:
+          "Até agora, as funções só mostravam algo na tela com print() — mas não devolviam nenhum valor para ser usado depois. return faz uma função devolver um valor para quem a chamou, que pode guardar esse valor em uma variável ou usá-lo diretamente em uma conta. Assim que o Python executa um return, a função termina ali — nenhuma linha depois dele, dentro da função, é executada.",
+        example: {
+          code: "def dobro(numero):\n    return numero * 2\n\nresultado = dobro(5)\nprint(resultado)",
+          explanation:
+            "dobro(5) executa a função com numero = 5, e return numero * 2 devolve 10 para quem chamou — esse valor é guardado em resultado, e só depois mostrado com print().",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-10-3",
+          title: "Usando o retorno direto numa conta",
+          difficulty: 4,
+          concept: "return",
+          conceptId: "return",
+          instruction:
+            "Crie uma função chamada metro_para_cm que recebe metros e devolve (return) o valor multiplicado por 100. Sem guardar o resultado em uma variável, mostre diretamente na tela o resultado de metro_para_cm(2.5) somado a mais 10.",
+          starterCode: "",
+          expectedOutput: ["260.0"],
+          hints: [
+            { order: 1, text: "return devolve um valor — você não precisa guardá-lo numa variável antes de usar; pode usar o resultado da chamada direto dentro de outra expressão." },
+            { order: 2, text: "metro_para_cm(2.5) já é um valor (250.0) — some 10 a ele dentro do próprio print()." },
+            { order: 3, text: "def metro_para_cm(metros):\\n    return metros * 100\\n\\nprint(metro_para_cm(2.5) + 10)" },
+          ],
+        },
+        miniProject: {
+          title: "Calculadora usando funções",
+          description:
+            "Crie quatro funções — somar, subtrair, multiplicar e dividir — cada uma recebendo dois números e devolvendo (return) o resultado da operação correspondente. Peça dois números ao usuário com input() (convertidos com float()) e uma operação (digitada como texto), e use if/elif/else para chamar a função certa e mostrar o resultado.",
+        },
+        summary:
+          "return devolve um valor de dentro da função para quem a chamou, que pode guardá-lo numa variável ou usá-lo direto em outra expressão. Uma função com return e sem print() não mostra nada sozinha — quem a chama decide o que fazer com o valor devolvido.",
+        nextLessonSlug: "escrevendo-em-arquivos",
+      },
+    ],
+  },
+  {
+    slug: "arquivos",
+    order: 11,
+    title: "Arquivos",
+    description: "Ler e salvar informações em arquivos.",
+    lessons: [
+      {
+        id: "escrevendo-em-arquivos",
+        slug: "escrevendo-em-arquivos",
+        moduleSlug: "arquivos",
+        order: 1,
+        title: "Escrevendo e lendo um arquivo",
+        objective:
+          "Usar open() para escrever em um arquivo com .write() e depois ler o conteúdo salvo com .read().",
+        estimatedMinutes: 18,
+        difficulty: 4,
+        concept:
+          'open(nome_arquivo, "w") abre (ou cria) um arquivo em modo de escrita — o modo "w" (write) apaga o conteúdo anterior, se existir, e permite usar .write(texto) para escrever nele. Depois de escrever, .close() fecha o arquivo, garantindo que o conteúdo seja salvo de verdade. Para ler de volta, usa-se open(nome_arquivo, "r") (modo leitura) e .read(), que devolve todo o conteúdo do arquivo como uma única string.',
+        example: {
+          code: 'arquivo = open("notas.txt", "w")\narquivo.write("Primeira anotação")\narquivo.close()\n\narquivo_leitura = open("notas.txt", "r")\nconteudo = arquivo_leitura.read()\nprint(conteudo)\narquivo_leitura.close()',
+          explanation:
+            'Primeiro o arquivo é aberto em modo "w" e recebe um texto com .write(). Depois de fechado, ele é aberto de novo, agora em modo "r" (read), para ler o conteúdo salvo com .read() e mostrá-lo.',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-11-1",
+          title: "O modo errado para começar um arquivo novo",
+          difficulty: 4,
+          concept: "escrever-arquivo",
+          conceptId: "escrever-arquivo",
+          instruction:
+            'O código abaixo tenta abrir um arquivo chamado diario.txt para escrever nele pela primeira vez, mas usa o modo errado — "r" (leitura) só funciona em arquivos que já existem, e diario.txt ainda não existe (isso causaria um erro). Corrija o modo da primeira abertura para criar e escrever o texto "Primeiro dia de estudos", e mantenha a segunda parte (que lê o arquivo de volta) como está.',
+          starterCode: 'arquivo = open("diario.txt", "r")\narquivo.write("Primeiro dia de estudos")\narquivo.close()\n\narquivo_leitura = open("diario.txt", "r")\nprint(arquivo_leitura.read())\narquivo_leitura.close()',
+          expectedOutput: ["Primeiro dia de estudos"],
+          hints: [
+            { order: 1, text: 'Modo "r" é só para LER um arquivo que já existe — para criar e escrever, o modo certo é "w".' },
+            { order: 2, text: 'Troque só o modo da primeira abertura, de "r" para "w" — a segunda abertura (para ler de volta) já está certa.' },
+            { order: 3, text: 'arquivo = open("diario.txt", "w")\\narquivo.write("Primeiro dia de estudos")\\narquivo.close()\\n\\narquivo_leitura = open("diario.txt", "r")\\nprint(arquivo_leitura.read())\\narquivo_leitura.close()' },
+          ],
+        },
+        summary:
+          'open(nome, "w") cria (ou recria) um arquivo para escrita. open(nome, "r") abre um arquivo já existente para leitura, com .read() devolvendo todo o conteúdo como texto. Tentar ler ("r") um arquivo que ainda não existe gera um erro.',
+        nextLessonSlug: "adicionando-sem-apagar",
+      },
+      {
+        id: "adicionando-sem-apagar",
+        slug: "adicionando-sem-apagar",
+        moduleSlug: "arquivos",
+        order: 2,
+        title: "Adicionando a um arquivo sem apagar: modo \"a\"",
+        objective:
+          'Usar o modo "a" (append) para adicionar texto ao final de um arquivo já existente, sem apagar o conteúdo anterior.',
+        estimatedMinutes: 15,
+        difficulty: 4,
+        concept:
+          'Além de "w" (que apaga o conteúdo anterior) e "r" (leitura), existe o modo "a" (append), que adiciona texto ao FINAL de um arquivo já existente, sem apagar o que já estava lá. Isso é útil para ir acrescentando informações a um arquivo aos poucos, em execuções diferentes do programa.',
+        example: {
+          code: 'arquivo = open("log.txt", "w")\narquivo.write("Primeira execução. ")\narquivo.close()\n\narquivo = open("log.txt", "a")\narquivo.write("Segunda execução.")\narquivo.close()\n\narquivo_leitura = open("log.txt", "r")\nprint(arquivo_leitura.read())\narquivo_leitura.close()',
+          explanation:
+            'O primeiro open("log.txt", "w") cria o arquivo com o primeiro texto. O segundo open("log.txt", "a") abre o mesmo arquivo em modo de adicionar, sem apagar o que já tinha — por isso o texto final junta as duas partes.',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-11-2",
+          title: "A segunda mensagem que apagou a primeira",
+          difficulty: 4,
+          concept: "modo-append",
+          conceptId: "modo-append",
+          instruction:
+            'O código abaixo queria guardar duas mensagens em historico.txt, uma de cada vez, mas usa "w" nas duas aberturas — isso apaga a primeira mensagem antes de escrever a segunda. Corrija o modo da SEGUNDA abertura para "a", para que as duas mensagens fiquem salvas, uma seguida da outra.',
+          starterCode: 'arquivo = open("historico.txt", "w")\narquivo.write("Login realizado. ")\narquivo.close()\n\narquivo = open("historico.txt", "w")\narquivo.write("Compra registrada.")\narquivo.close()\n\narquivo_leitura = open("historico.txt", "r")\nprint(arquivo_leitura.read())\narquivo_leitura.close()',
+          expectedOutput: ["Login realizado. Compra registrada."],
+          hints: [
+            { order: 1, text: '"w" sempre apaga o conteúdo anterior do arquivo antes de escrever — mesmo que o arquivo já tivesse algo salvo.' },
+            { order: 2, text: 'Para ACRESCENTAR ao que já existe, sem apagar, use "a" (append) na segunda abertura.' },
+            { order: 3, text: 'arquivo = open("historico.txt", "w")\\narquivo.write("Login realizado. ")\\narquivo.close()\\n\\narquivo = open("historico.txt", "a")\\narquivo.write("Compra registrada.")\\narquivo.close()\\n\\narquivo_leitura = open("historico.txt", "r")\\nprint(arquivo_leitura.read())\\narquivo_leitura.close()' },
+          ],
+        },
+        summary:
+          '"w" apaga o conteúdo anterior do arquivo antes de escrever nele. "a" acrescenta ao final, preservando o que já existia.',
+        nextLessonSlug: "percorrendo-linhas-de-arquivo",
+      },
+      {
+        id: "percorrendo-linhas-de-arquivo",
+        slug: "percorrendo-linhas-de-arquivo",
+        moduleSlug: "arquivos",
+        order: 3,
+        title: "Percorrendo as linhas de um arquivo",
+        objective:
+          "Usar .readlines() e for para percorrer, uma a uma, as linhas de um arquivo com várias linhas.",
+        estimatedMinutes: 18,
+        difficulty: 4,
+        concept:
+          'Quando um arquivo tem várias linhas (separadas por \\n), .readlines() devolve uma lista com cada linha, incluindo o \\n do final de cada uma. Para mostrar cada linha sem essa quebra extra, .strip() remove espaços e quebras de linha do início e do fim do texto. Juntando os dois: for linha in arquivo.readlines(): print(linha.strip()).',
+        example: {
+          code: 'arquivo = open("compras.txt", "w")\narquivo.write("arroz\\n")\narquivo.write("feijão\\n")\narquivo.write("leite")\narquivo.close()\n\narquivo_leitura = open("compras.txt", "r")\nfor linha in arquivo_leitura.readlines():\n    print(linha.strip())\narquivo_leitura.close()',
+          explanation:
+            '.write("arroz\\n") e .write("feijão\\n") terminam em \\n, criando duas quebras de linha no arquivo. readlines() devolve cada linha (com o \\n incluído), e .strip() tira essa quebra na hora de mostrar.',
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-11-3",
+          title: "Lista de compras em um arquivo",
+          difficulty: 4,
+          concept: "readlines",
+          conceptId: "readlines",
+          instruction:
+            'Crie um arquivo chamado tarefas.txt em modo de escrita ("w"). Escreva três linhas nele, com três .write(): "Estudar\\n", depois "Praticar\\n", depois "Revisar" (sem \\n no final desta última). Feche o arquivo. Depois, abra tarefas.txt em modo de leitura ("r") e use for com .readlines() para mostrar cada linha, já sem a quebra de linha extra (use .strip()).',
+          starterCode: "",
+          expectedOutput: ["Estudar", "Praticar", "Revisar"],
+          hints: [
+            { order: 1, text: 'Cada .write() não pula linha sozinho — para separar as linhas, inclua \\n no final do texto (menos na última).' },
+            { order: 2, text: "Depois de escrever e fechar, abra de novo em modo \"r\" e percorra arquivo.readlines() com for, usando .strip() em cada linha antes do print()." },
+            { order: 3, text: 'arquivo = open("tarefas.txt", "w")\\narquivo.write("Estudar\\n")\\narquivo.write("Praticar\\n")\\narquivo.write("Revisar")\\narquivo.close()\\n\\narquivo_leitura = open("tarefas.txt", "r")\\nfor linha in arquivo_leitura.readlines():\\n    print(linha.strip())\\narquivo_leitura.close()' },
+          ],
+        },
+        miniProject: {
+          title: "Cadastro persistente",
+          description:
+            "Monte um pequeno cadastro de pessoas que sobrevive mesmo depois do programa terminar: peça nome e idade com input(), monte uma linha de texto com os dois (separados por um caractere como ;), e use open(arquivo, \"a\") para acrescentar essa linha a um arquivo cadastro.txt, sem apagar cadastros anteriores. No final do programa, abra o arquivo em modo leitura e use for com .readlines() para mostrar todos os cadastros já salvos, um por linha.",
+        },
+        summary:
+          ".readlines() devolve uma lista com as linhas do arquivo, percorrível com for. .strip() remove a quebra de linha (e espaços) do início e do fim de cada uma.",
+        nextLessonSlug: "meu-primeiro-projeto-completo",
+      },
+    ],
+  },
+  {
+    slug: "projeto-final",
+    order: 12,
+    title: "Projeto final",
+    description: "Combinar tudo o que você aprendeu em um projeto completo.",
+    lessons: [
+      {
+        id: "meu-primeiro-projeto-completo",
+        slug: "meu-primeiro-projeto-completo",
+        moduleSlug: "projeto-final",
+        order: 1,
+        title: "Juntando tudo o que você aprendeu",
+        objective:
+          "Combinar variáveis, condições, repetições, listas ou dicionários e funções em um programa completo, escolhido por você.",
+        estimatedMinutes: 30,
+        difficulty: 5,
+        concept:
+          "Um projeto completo raramente usa só um conceito por vez — ele combina o que você já aprendeu: variáveis para guardar informação, input() para receber dados, condições para decidir o que fazer, repetições para lidar com várias coisas de uma vez, listas ou dicionários para organizar informação, e funções para separar o programa em partes reutilizáveis. Não existe uma única forma certa de montar isso — o importante é quebrar o projeto em pedaços pequenos (a decomposição do Módulo 1) e resolver um de cada vez.",
+        example: {
+          code: 'def mostrar_tarefas(tarefas):\n    for tarefa in tarefas:\n        print("-", tarefa)\n\ntarefas = ["Estudar Python", "Fazer exercícios"]\ntarefas.append("Revisar o projeto final")\nmostrar_tarefas(tarefas)',
+          explanation:
+            "Esse programinha já combina lista (tarefas), append(), função (mostrar_tarefas) e for — um exemplo pequeno do tipo de combinação que o seu projeto final vai usar, só que mais completo.",
+        },
+        challenge: {
+          kind: "code",
+          id: "ex-12-1",
+          title: "Combinando função, condição e retorno",
+          difficulty: 5,
+          concept: "combinar-conceitos",
+          conceptId: "combinar-conceitos",
+          instruction:
+            'Crie uma função chamada verificar_aprovacao que recebe uma nota e devolve (return) "Aprovado" se a nota for maior ou igual a 7, ou "Reprovado" caso contrário. Use essa função para mostrar o resultado de verificar_aprovacao(8) e depois de verificar_aprovacao(5).',
+          starterCode: "",
+          expectedOutput: ["Aprovado", "Reprovado"],
+          hints: [
+            { order: 1, text: "A função usa if/else por dentro, e return no lugar de print(), para devolver o texto certo em cada caso." },
+            { order: 2, text: "Uma chamada de função pode ir direto dentro de um print(): print(verificar_aprovacao(8))." },
+            { order: 3, text: 'def verificar_aprovacao(nota):\\n    if nota >= 7:\\n        return "Aprovado"\\n    else:\\n        return "Reprovado"\\n\\nprint(verificar_aprovacao(8))\\nprint(verificar_aprovacao(5))' },
+          ],
+        },
+        miniProject: {
+          title: "Projeto final",
+          description:
+            "Escolha UM projeto para construir, combinando o que você aprendeu até aqui: uma lista de tarefas (adicionar, remover, mostrar), um sistema de notas (cadastrar alunos e notas num dicionário, calcular média, mostrar aprovado/reprovado), uma agenda de contatos, um controle financeiro simples (somar entradas e saídas, mostrar saldo) ou um quiz de perguntas e respostas com pontuação. Use pelo menos uma função, uma lista ou dicionário, uma repetição e uma condição no seu projeto — e sinta-se à vontade para combinar mais de uma dessas ideias.",
+        },
+        summary:
+          "Você concluiu a trilha do Python do Zero! Um projeto completo é sempre uma combinação de conceitos simples, resolvidos um de cada vez — exatamente como você vem praticando desde o Módulo 1.",
         nextLessonSlug: null,
       },
     ],
   },
-  modulePlaceholder(10, "funcoes", "Funções", "Criar blocos de código reutilizáveis."),
-  modulePlaceholder(11, "arquivos", "Arquivos", "Ler e salvar informações em arquivos."),
-  modulePlaceholder(12, "projeto-final", "Projeto final", "Combinar tudo o que você aprendeu em um projeto completo."),
 ];
 
 /** Módulo ainda fora do escopo do MVP — aparece na trilha, mas bloqueado (sem aulas cadastradas). */
