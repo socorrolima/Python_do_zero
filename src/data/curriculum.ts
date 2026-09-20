@@ -432,7 +432,7 @@ export const MODULES: Module[] = [
         example: {
           code: 'print("Qual é o seu nome?")\nnome = input()\nprint(nome)',
           explanation:
-            'A primeira linha pergunta algo. A segunda linha, input(), pausa o programa esperando uma resposta — aqui, guardamos essa resposta na variável nome. A terceira linha mostra o que foi digitado.',
+            'A primeira linha pergunta algo. A segunda linha, input(), é quem pede a resposta e guarda o que foi digitado na variável nome — num terminal de verdade, o programa pararia exatamente aqui esperando você digitar. Neste Laboratório não existe esse terminal, então essa "espera" já precisa estar respondida antes: escreva a resposta (por exemplo, seu nome) no campo "Entradas (input)", logo abaixo, e só depois clique em Executar. A terceira linha mostra o que foi digitado.',
         },
         challenge: {
           kind: "code",
