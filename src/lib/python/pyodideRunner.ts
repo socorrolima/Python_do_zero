@@ -61,15 +61,19 @@ export function runPython(code: string, stdinLines: string[] = []): Promise<RunR
       activeWorker.removeEventListener("message", handleMessage);
       activeWorker.terminate();
       if (worker === activeWorker) worker = null;
+      // Captura o estado ANTES de zerá-lo: senão o ternário abaixo sempre
+      // cai no ramo "false" (interpretador não carregou), mesmo quando o
+      // timeout foi por um loop infinito do aluno com o Pyodide já pronto.
+      const wasReady = pyodideReady;
       pyodideReady = false;
       resolve({
         output: [],
         error: {
           pythonError: "Tempo esgotado",
-          pedagogicalMessage: pyodideReady
+          pedagogicalMessage: wasReady
             ? "O código demorou demais para terminar — pode ter entrado em um loop infinito (por exemplo, um `while` cuja condição nunca vira falsa)."
             : "O interpretador Python demorou demais para carregar (mais de 2 minutos). Isso costuma ser conexão lenta ou instável — verifique sua internet e tente executar de novo.",
-          hint: pyodideReady
+          hint: wasReady
             ? "Revise as condições dos seus loops: alguma variável usada nela precisa mudar dentro do loop."
             : "Na primeira vez, o navegador baixa o interpretador Python inteiro (alguns megabytes) — em conexões lentas isso pode levar mais de um minuto. Tente de novo; se persistir, teste com outra rede.",
           line: null,
