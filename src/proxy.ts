@@ -64,5 +64,14 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  // "workers/" (o worker do Pyodide, em public/workers/) precisa ficar de
+  // fora: sem essa exclusão, toda vez que o navegador pede esse arquivo
+  // estático, o proxy fazia uma chamada de rede ao Supabase
+  // (auth.getUser()) antes de servi-lo — sem necessidade, já que é um
+  // arquivo público. Se essa chamada demorasse ou falhasse, o arquivo do
+  // worker nunca chegava a carregar (ficava "pendente" para sempre no
+  // navegador), travando o Laboratório antes mesmo de o Python começar a
+  // carregar. Bug real encontrado em produção — não confundir com lentidão
+  // de rede do CDN do Pyodide, que é um problema diferente.
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|workers/).*)"],
 };
