@@ -29,6 +29,12 @@ export default function CadastroPage() {
       });
 
       if (authError) {
+        // Loga a mensagem real do Supabase Auth no console — a mensagem
+        // traduzida na tela pode ser genérica quando o erro não está
+        // mapeado em translateAuthError, e sem isso fica impossível saber
+        // o motivo real da falha (projeto pausado, e-mail de confirmação
+        // falhando, etc.).
+        console.error("[cadastro] Supabase Auth retornou erro:", authError.message, authError);
         setError(translateAuthError(authError.message));
         return;
       }
