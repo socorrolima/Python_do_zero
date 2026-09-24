@@ -99,22 +99,28 @@ const MODULO_1: Module = {
       challenge: {
         kind: "code",
         id: "int-ex-1-2",
-        title: "Soma dos pares",
+        title: "Classificando notas com for + elif",
         difficulty: 2,
         concept: "condicionais_e_lacos",
         conceptId: "condicionais_e_lacos",
         instruction:
-          "Use um for com range() para somar os números pares de 1 até 10 (incluindo o 10) e exiba exatamente: Soma dos pares: 30",
+          "A lista notas já tem 5 valores. Para cada nota, use um for e uma cadeia if/elif/else igual à do exemplo (\"Aprovado\" se nota >= 7, \"Recuperação\" se nota >= 5, senão \"Reprovado\") e exiba, para cada uma, exatamente no formato: Nota <valor>: <situação>",
         starterCode:
-          "soma = 0\n\nfor numero in range(1, 11):\n    # verifique se numero é par e, se for, some a soma\n    pass\n\nprint(f\"Soma dos pares: {soma}\")",
-        expectedOutput: ["Soma dos pares: 30"],
+          "notas = [4, 6, 8, 9.5, 3]\n\nfor nota in notas:\n    # decida a situação com if/elif/else e exiba no formato pedido\n    pass\n",
+        expectedOutput: [
+          "Nota 4: Reprovado",
+          "Nota 6: Recuperação",
+          "Nota 8: Aprovado",
+          "Nota 9.5: Aprovado",
+          "Nota 3: Reprovado",
+        ],
         hints: [
-          { order: 1, text: "Um número é par quando o resto da divisão por 2 é zero — o operador % devolve esse resto." },
-          { order: 2, text: "Dentro do for, use if numero % 2 == 0: para decidir se soma." },
+          { order: 1, text: "Dentro do for, use if nota >= 7: ... elif nota >= 5: ... else: ... para decidir a situação de cada nota — igual ao exemplo acima." },
+          { order: 2, text: 'Depois de decidir, exiba com print(f"Nota {nota}: {situacao}").' },
           {
             order: 3,
             text:
-              'for numero in range(1, 11):\n    if numero % 2 == 0:\n        soma += numero\nprint(f"Soma dos pares: {soma}")',
+              'for nota in notas:\n    if nota >= 7:\n        situacao = "Aprovado"\n    elif nota >= 5:\n        situacao = "Recuperação"\n    else:\n        situacao = "Reprovado"\n    print(f"Nota {nota}: {situacao}")',
           },
         ],
       },
