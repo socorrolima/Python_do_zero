@@ -28,8 +28,13 @@ interface ProgressContextValue {
   isLessonUnlocked: (lesson: Lesson) => boolean;
   moduleProgress: (module: Module) => ProgressSummary;
   overallProgress: () => ProgressSummary;
+  /** Progresso só das aulas de um curso (multi-curso — ver DATABASE.md) — usado no seletor de cursos e no dashboard. */
+  courseProgress: (courseSlug: string) => ProgressSummary;
   resetProgress: () => void;
 }
+
+/** Curso de uma aula quando `courseSlug` vem ausente (conteúdo/testes anteriores ao multi-curso). */
+const DEFAULT_COURSE_SLUG = "python-do-zero";
 
 const ProgressContext = createContext<ProgressContextValue | null>(null);
 
@@ -67,10 +72,17 @@ export function ProgressProvider({
     const recordAttempt = (input: RecordAttemptInput) => recordExerciseAttempt(input);
 
     const isLessonUnlocked = (lesson: Lesson) => {
-      const index = allLessons.findIndex((l) => l.slug === lesson.slug);
-      if (index <= 0) return true; // primeira aula do MVP sempre liberada
+      // Desbloqueio sequencial é por curso: a primeira aula do Python
+      // Intermediário não pode ficar trancada esperando o aluno terminar
+      // o Python do Zero inteiro. `courseSlug` ausente (currículo/teste de
+      // antes do multi-curso) cai no curso padrão — comportamento idêntico
+      // ao de antes quando só existe um curso.
+      const courseSlug = lesson.courseSlug ?? DEFAULT_COURSE_SLUG;
+      const courseLessons = allLessons.filter((l) => (l.courseSlug ?? DEFAULT_COURSE_SLUG) === courseSlug);
+      const index = courseLessons.findIndex((l) => l.slug === lesson.slug);
+      if (index <= 0) return true; // primeira aula do curso sempre liberada
       if (completedLessons.has(lesson.slug)) return true;
-      const previous = allLessons[index - 1];
+      const previous = courseLessons[index - 1];
       return completedLessons.has(previous.slug);
     };
 
@@ -86,6 +98,13 @@ export function ProgressProvider({
       return { completed, total, percent: total === 0 ? 0 : Math.round((completed / total) * 100) };
     };
 
+    const courseProgress = (courseSlug: string): ProgressSummary => {
+      const lessons = allLessons.filter((l) => (l.courseSlug ?? DEFAULT_COURSE_SLUG) === courseSlug);
+      const total = lessons.length;
+      const completed = lessons.filter((l) => completedLessons.has(l.slug)).length;
+      return { completed, total, percent: total === 0 ? 0 : Math.round((completed / total) * 100) };
+    };
+
     const resetProgress = () => {
       setCompletedLessons(new Set());
       void resetAllProgress();
@@ -98,6 +117,7 @@ export function ProgressProvider({
       isLessonUnlocked,
       moduleProgress,
       overallProgress,
+      courseProgress,
       resetProgress,
     };
   }, [completedLessons, allLessons]);

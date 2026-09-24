@@ -1,13 +1,13 @@
 import { DashboardSummary } from "@/components/dashboard/DashboardSummary";
-import { getModules } from "@/lib/exercises/content";
+import { getCourses, getModules } from "@/lib/exercises/content";
 
 export default async function ProgressoPage() {
-  const modules = await getModules();
+  const [courses, modules] = await Promise.all([getCourses(), getModules()]);
 
   return (
     <div>
       <h1 className="mb-6 text-2xl font-semibold">Meu progresso</h1>
-      <DashboardSummary modules={modules} />
+      <DashboardSummary courses={courses} modules={modules} />
     </div>
   );
 }

@@ -71,7 +71,7 @@ nem contêm regras de dificuldade/adaptação — sempre através dos serviços 
 `lib/`. Isso mantém o `AdaptiveLearningService` como módulo único e
 configurável.
 
-## Mapa de navegação (MVP)
+## Mapa de navegação
 
 ```mermaid
 flowchart TD
@@ -79,8 +79,9 @@ flowchart TD
     A --> C["/cadastro  Cadastro"]
     B --> D["/progresso  Dashboard"]
     C --> D
-    D --> E["/aprender  Trilha de aprendizagem"]
-    E --> F["/aula/[slug]  Página da aula"]
+    D --> E["/aprender  Seletor de curso"]
+    E --> E2["/aprender/[curso]  Trilha do curso"]
+    E2 --> F["/aula/[slug]  Página da aula"]
     F --> G["Editor Python embutido"]
     F --> H["Exercício + Feedback"]
     H --> F
@@ -89,10 +90,20 @@ flowchart TD
 ```
 
 - `/`, `/login`, `/cadastro` — públicas.
-- `/progresso`, `/aprender`, `/aula/[slug]`, `/laboratorio` — exigem sessão
-  válida (a partir da Fase 4).
-- `/aula/[slug]` só renderiza conteúdo se os pré-requisitos do aluno (módulo
-  anterior concluído) estiverem satisfeitos.
+- `/progresso`, `/aprender`, `/aprender/[curso]`, `/aula/[slug]`,
+  `/laboratorio` — exigem sessão válida (a partir da Fase 4).
+- `/aula/[slug]` só renderiza conteúdo se os pré-requisitos do aluno (aula
+  anterior do mesmo curso concluída) estiverem satisfeitos.
+
+## Multi-curso
+
+A plataforma serve mais de um curso (ex.: "Python do Zero" e "Python
+Intermediário") sem duplicar autenticação, banco ou hospedagem — ver
+DATABASE.md para o modelo de dados (`courses` → `modules`). `/aprender` é o
+seletor de curso; `/aprender/[curso]` é a trilha (mesmo `ModuleMap` de
+antes, agora filtrado por curso). Cada curso mantém seu próprio conteúdo em
+`src/data/curriculum*.ts` — o conteúdo do Python do Zero
+(`src/data/curriculum.ts`) não muda com a adição de um novo curso.
 
 ## Estrutura de pastas
 
@@ -102,7 +113,8 @@ src/
 │   ├── page.tsx                  # Home
 │   ├── login/
 │   ├── cadastro/
-│   ├── aprender/                 # Trilha de aprendizagem
+│   ├── aprender/                 # Seletor de curso
+│   │   └── [curso]/              # Trilha de aprendizagem do curso
 │   ├── aula/[slug]/              # Página de aula
 │   ├── laboratorio/              # Laboratório livre
 │   ├── progresso/                # Dashboard

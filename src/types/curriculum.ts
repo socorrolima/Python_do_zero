@@ -42,6 +42,13 @@ export interface Lesson {
   id: string;
   slug: string;
   moduleSlug: string;
+  /**
+   * Slug do curso ao qual esta aula pertence (tabela `courses`, ver
+   * DATABASE.md). Opcional para não quebrar conteúdo/testes escritos antes
+   * do multi-curso — quando ausente, é tratado como o curso "Python do
+   * Zero" (ver DEFAULT_COURSE_SLUG em ProgressContext.tsx e content.ts).
+   */
+  courseSlug?: string;
   order: number;
   title: string;
   objective: string;
@@ -68,4 +75,14 @@ export interface Module {
   description: string;
   /** Módulos fora do MVP (3 a 12) ainda não têm aulas reais cadastradas. */
   lessons: Lesson[];
+  /** Mesmo comentário de `Lesson.courseSlug` — opcional, default é "Python do Zero". */
+  courseSlug?: string;
+}
+
+/** Um curso da plataforma (tabela `courses`) — agrupa módulos, ex.: "Python do Zero", "Python Intermediário". */
+export interface Course {
+  slug: string;
+  order: number;
+  title: string;
+  description: string;
 }

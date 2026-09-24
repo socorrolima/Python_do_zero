@@ -1,16 +1,16 @@
-import { ModuleMap } from "@/components/progress/ModuleMap";
-import { getModules } from "@/lib/exercises/content";
+import { CourseSelector } from "@/components/progress/CourseSelector";
+import { getCourses } from "@/lib/exercises/content";
 
 export default async function AprenderPage() {
-  const modules = await getModules();
+  const courses = await getCourses();
 
   return (
     <div>
-      <h1 className="mb-1 text-2xl font-semibold">Trilha de aprendizagem</h1>
+      <h1 className="mb-1 text-2xl font-semibold">Cursos</h1>
       <p className="mb-6 text-slate-600 dark:text-slate-300">
-        Os Módulos 1 e 2 têm aulas liberadas. Os demais chegam nas próximas fases.
+        Escolha um curso para ver sua trilha de aprendizagem.
       </p>
-      <ModuleMap modules={modules} />
+      <CourseSelector courses={courses} />
     </div>
   );
 }

@@ -1,9 +1,14 @@
 # Python do Zero
 
-Plataforma web para ensinar Python a pessoas que nunca programaram, com
-metodologia CONCEITO → EXEMPLO → EXPERIMENTAÇÃO → DESAFIO → FEEDBACK →
-PROJETO. Ver `PEDAGOGICAL_METHOD.md` para o método completo e
-`ARCHITECTURE.md` / `DATABASE.md` para as decisões técnicas.
+Plataforma web para ensinar Python, com metodologia CONCEITO → EXEMPLO →
+EXPERIMENTAÇÃO → DESAFIO → FEEDBACK → PROJETO. Ver `PEDAGOGICAL_METHOD.md`
+para o método completo e `ARCHITECTURE.md` / `DATABASE.md` para as decisões
+técnicas.
+
+A plataforma é multi-curso (ver "Multi-curso" em `ARCHITECTURE.md` e
+`DATABASE.md`): hoje hospeda o **Python do Zero** (para quem nunca
+programou) e o **Python Intermediário** (para quem já concluiu o Python
+do Zero — Módulo 1 já com aulas reais, Módulos 2 a 10 chegando aos poucos).
 
 ## Status
 
@@ -70,19 +75,23 @@ Sem essas variáveis o app continua rodando (páginas públicas normalmente,
 rotas protegidas redirecionando para `/login`), mas login e cadastro não
 funcionam de fato até as credenciais reais serem preenchidas.
 
-Depois de configurar as variáveis, execute a migração
-`supabase/migrations/0001_init.sql` no SQL Editor do seu projeto Supabase
-(ou via CLI) para criar as tabelas e as políticas de RLS, e então rode:
+Depois de configurar as variáveis, execute as migrações em
+`supabase/migrations/` no SQL Editor do seu projeto Supabase (ou via CLI),
+em ordem — `0001_init.sql` e depois `0002_courses.sql` (esta última adiciona
+o suporte a múltiplos cursos; é aditiva e segura mesmo com alunos já
+cadastrados) — para criar as tabelas e as políticas de RLS, e então rode:
 
 ```bash
 npm run seed
 ```
 
-para popular os Módulos 1 e 2 (aulas, exercícios e dicas) a partir de
-`src/data/curriculum.ts`. O seed precisa de `SUPABASE_SERVICE_ROLE_KEY`
-em `.env.local` (a chave anônima só tem permissão de leitura no conteúdo)
-e pode ser rodado de novo sempre que o conteúdo mudar — ele substitui os
-dados anteriores em vez de duplicar.
+para popular todos os cursos e módulos com aulas (aulas, exercícios e
+dicas) a partir de `src/data/courses.ts`, `src/data/curriculum.ts` (Python
+do Zero) e `src/data/curriculum-intermediario.ts` (Python Intermediário).
+O seed precisa de `SUPABASE_SERVICE_ROLE_KEY` em `.env.local` (a chave
+anônima só tem permissão de leitura no conteúdo) e pode ser rodado de novo
+sempre que o conteúdo mudar — ele substitui os dados anteriores em vez de
+duplicar.
 
 ## Execução local
 
@@ -136,8 +145,8 @@ via cookies são exercitados pelos testes automatizados.
      lá para o app buildar sem avisos e para uma futura área administrativa)
 4. Deploy. Requisito mínimo: Node 20.9+ (a Vercel já usa uma versão mais
    nova por padrão — só importa se você rodar o build em outro lugar).
-5. Depois do primeiro deploy, confirme que a migração
-   (`supabase/migrations/0001_init.sql`) e o `npm run seed` já foram
+5. Depois do primeiro deploy, confirme que as migrações
+   (`supabase/migrations/*.sql`, em ordem) e o `npm run seed` já foram
    rodados contra o **mesmo** projeto Supabase apontado nas variáveis
    acima — a Vercel não roda isso por você.
 

@@ -6,6 +6,8 @@
 ## Relacionamento
 
 ```
+course
+   ↓
 module
    ↓
 lesson
@@ -19,12 +21,29 @@ attempt
 student_progress
 ```
 
+## Multi-curso
+
+A partir de `supabase/migrations/0002_courses.sql`, a plataforma serve mais
+de um curso (ex.: "Python do Zero" e "Python Intermediário") na mesma base:
+`courses` é o topo da hierarquia, e `modules.course_id` diz a qual curso
+cada módulo pertence. Módulos, aulas, conceitos, exercícios e dicas
+continuam com a mesma estrutura de antes — a única mudança é essa camada a
+mais no topo. `student_progress`, `exercise_attempts`, `concept_mastery` e
+`achievements` não sabem de curso: continuam referenciando `lesson_id` /
+`exercise_id` / `concept_id` diretamente, então o progresso de um aluno em
+cada curso já sai correto sem nenhuma coluna nova nessas tabelas.
+
+O desbloqueio sequencial de aulas (`isLessonUnlocked` em
+`ProgressContext.tsx`) é por curso: a primeira aula de cada curso está
+sempre liberada, independentemente do progresso do aluno nos outros cursos.
+
 ## Tabelas
 
 | Tabela | Campos principais | Observação |
 | --- | --- | --- |
 | `profiles` | id (fk auth.users), nome, streak_atual | 1:1 com o usuário do Supabase Auth |
-| `modules` | id, ordem, titulo, slug | Módulos 1 a 12 |
+| `courses` | id, ordem, slug, titulo, descricao | ex.: Python do Zero, Python Intermediário |
+| `modules` | id, ordem, titulo, slug, course_id | Módulos 1 a 12 (ou 1 a 10) de um curso |
 | `lessons` | id, module_id, ordem, titulo, conteudo_json | conteúdo separado do código |
 | `concepts` | id, lesson_id, chave (ex. `if_else`) | usado pelo AdaptiveLearningService |
 | `exercises` | id, concept_id, dificuldade (1-5), instrucao, starter_code, expected_behavior | ver modelo de exercício abaixo |
@@ -63,11 +82,16 @@ Todas as tabelas com `profile_id` têm policy `profile_id = auth.uid()` para
 SELECT/INSERT/UPDATE. Um aluno nunca acessa os dados privados de outro
 aluno.
 
-Tabelas de conteúdo (`modules`, `lessons`, `concepts`, `exercises`, `hints`,
-`projects`) são públicas para leitura autenticada e sem escrita pelo
-cliente — apenas via área administrativa futura, que usará a service role
-key no servidor.
+Tabelas de conteúdo (`courses`, `modules`, `lessons`, `concepts`,
+`exercises`, `hints`, `projects`) são públicas para leitura autenticada e
+sem escrita pelo cliente — apenas via área administrativa futura, que usará
+a service role key no servidor.
 
 ## Migrations
 
 SQL versionado em `supabase/migrations/` (criado na Fase 4).
+
+- `0001_init.sql` — schema inicial (curso único).
+- `0002_courses.sql` — introduz `courses` e `modules.course_id`, aditiva:
+  não remove nem torna obrigatória nenhuma coluna existente, e migra os
+  módulos já cadastrados para o curso "Python do Zero" automaticamente.

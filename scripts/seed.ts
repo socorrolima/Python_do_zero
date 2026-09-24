@@ -1,22 +1,28 @@
 /**
- * Popula o Supabase com o conteúdo dos Módulos 1 e 2, a partir da mesma
- * fonte que serve de fallback em src/lib/exercises/content.ts
- * (src/data/curriculum.ts) — para não ter o conteúdo das aulas
- * transcrito em dois lugares diferentes.
+ * Popula o Supabase com os cursos e o conteúdo de todos os módulos, a
+ * partir da mesma fonte que serve de fallback em
+ * src/lib/exercises/content.ts (src/data/courses.ts, src/data/curriculum.ts
+ * e src/data/curriculum-intermediario.ts) — para não ter o conteúdo das
+ * aulas transcrito em dois lugares diferentes.
  *
- * Rodar depois de aplicar supabase/migrations/0001_init.sql e de
- * preencher .env.local:
+ * Rodar depois de aplicar as migrações em supabase/migrations/ (incluindo
+ * 0002_courses.sql, que adiciona a tabela `courses` e `modules.course_id`)
+ * e de preencher .env.local:
  *
  *   npm run seed
  *
  * Idempotente: pode ser rodado de novo a qualquer momento (upsert em
- * modules/lessons; concepts/exercises/hints da aula são recriados do
- * zero a cada rodada). Precisa de SUPABASE_SERVICE_ROLE_KEY — a chave
+ * courses/modules/lessons; concepts/exercises/hints da aula são recriados
+ * do zero a cada rodada). Precisa de SUPABASE_SERVICE_ROLE_KEY — a chave
  * anônima não tem permissão de escrita nas tabelas de conteúdo (só
- * leitura, ver as políticas de RLS em 0001_init.sql).
+ * leitura, ver as políticas de RLS em 0001_init.sql e 0002_courses.sql).
  */
 import { createClient } from "@supabase/supabase-js";
-import { MODULES } from "../src/data/curriculum";
+import { COURSES } from "../src/data/courses";
+import { MODULES as MODULES_PYTHON_DO_ZERO } from "../src/data/curriculum";
+import { MODULES as MODULES_PYTHON_INTERMEDIARIO } from "../src/data/curriculum-intermediario";
+
+const ALL_MODULES = [...MODULES_PYTHON_DO_ZERO, ...MODULES_PYTHON_INTERMEDIARIO];
 
 try {
   process.loadEnvFile(".env.local");
@@ -36,9 +42,34 @@ if (!url || !serviceKey) {
 
 const supabase = createClient(url, serviceKey);
 
+/** Curso de um módulo quando `courseSlug` vem ausente (curriculum.ts é anterior ao multi-curso). */
+const DEFAULT_COURSE_SLUG = "python-do-zero";
+
 async function main() {
-  for (const curriculumModule of MODULES) {
+  const courseIdBySlug = new Map<string, string>();
+  for (const course of COURSES) {
+    const { data: courseRow, error: courseError } = await supabase
+      .from("courses")
+      .upsert(
+        { slug: course.slug, ordem: course.order, titulo: course.title, descricao: course.description },
+        { onConflict: "slug" },
+      )
+      .select("id")
+      .single();
+    if (courseError) throw courseError;
+    courseIdBySlug.set(course.slug, courseRow.id);
+    console.log(`✓ Curso ${course.slug}`);
+  }
+
+  for (const curriculumModule of ALL_MODULES) {
     if (curriculumModule.lessons.length === 0) continue; // fora do MVP — sem aulas ainda
+
+    const courseId = courseIdBySlug.get(curriculumModule.courseSlug ?? DEFAULT_COURSE_SLUG);
+    if (!courseId) {
+      throw new Error(
+        `Curso "${curriculumModule.courseSlug ?? DEFAULT_COURSE_SLUG}" não está em src/data/courses.ts (módulo ${curriculumModule.slug}).`,
+      );
+    }
 
     const { data: moduleRow, error: moduleError } = await supabase
       .from("modules")
@@ -48,6 +79,7 @@ async function main() {
           ordem: curriculumModule.order,
           titulo: curriculumModule.title,
           descricao: curriculumModule.description,
+          course_id: courseId,
         },
         { onConflict: "slug" },
       )
